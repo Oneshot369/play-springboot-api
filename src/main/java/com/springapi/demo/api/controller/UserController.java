@@ -21,6 +21,7 @@ public class UserController {
 
     @GetMapping("/getUserById")
     public UserModel getUserById(@RequestParam Integer id){
+        
         return userService.getUserById(id);
     }
 }
