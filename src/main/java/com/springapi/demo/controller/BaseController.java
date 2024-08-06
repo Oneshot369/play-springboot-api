@@ -1,4 +1,4 @@
-package com.springapi.demo.api.controller;
+package com.springapi.demo.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 

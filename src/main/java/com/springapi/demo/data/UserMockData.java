@@ -1,10 +1,10 @@
-package com.springapi.demo.services;
+package com.springapi.demo.data;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.springapi.demo.api.model.UserModel;
 import com.springapi.demo.interfaces.IUserDAO;
+import com.springapi.demo.model.dataObject.UserModel;
 
 public class UserMockData implements IUserDAO{
 
@@ -13,9 +13,9 @@ public class UserMockData implements IUserDAO{
     public UserMockData(){
         users = new ArrayList<>();
         //add some mock data
-        users.add(new UserModel(1, "Josh", "Peck", 19));
-        users.add(new UserModel(2, "Zach", "Peck", 21));
-        users.add(new UserModel(3, "Ace", "Lake", 20));
+        users.add(new UserModel(1L, "Josh", "Peck", 19));
+        users.add(new UserModel(2L, "Zach", "Peck", 21));
+        users.add(new UserModel(3L, "Ace", "Lake", 20));
     }
 
     @Override
@@ -24,7 +24,7 @@ public class UserMockData implements IUserDAO{
         return users.stream()
         .filter(user -> user.getUserId() == id).
         findFirst()
-        .orElse(new UserModel(-1, null, null, -1));
+        .orElse(new UserModel(-1L, null, null, -1));
     }
     
 }
