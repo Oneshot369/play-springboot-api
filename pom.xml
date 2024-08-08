@@ -28,6 +28,7 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
 		<!-- Dependencys I added -->
 
 		<!-- Lombok -->
@@ -35,6 +36,7 @@
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 		</dependency>
+
 		<!-- JPA -->
 		<dependency>
 			<groupId>org.springframework.data</groupId>
@@ -57,11 +59,13 @@
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 			<version>3.1.0</version>
 		</dependency>
+
 		<!-- Hibernate -->
 		<dependency>
 			<groupId>org.hibernate.orm</groupId>
 			<artifactId>hibernate-core</artifactId>
 		</dependency>
+
 		<!-- Json Formatter -->
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
@@ -69,12 +73,24 @@
 			<version>2.11.0</version>
 		</dependency>
 
+		<!-- Secrets -->
+		<dependency>
+			<groupId>com.github.ulisesbocchio</groupId>
+			<artifactId>jasypt-spring-boot-starter</artifactId>
+			<version>3.0.5</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<!-- Secrets-->
+			<plugin>
+				<groupId>com.github.ulisesbocchio</groupId>
+				<artifactId>jasypt-maven-plugin</artifactId>
+				<version>3.0.5</version>
 			</plugin>
 		</plugins>
 	</build>
