@@ -2,7 +2,8 @@ package com.springapi.demo.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import com.springapi.demo.services.JsonFormatter;
+import com.springapi.demo.util.JsonFormatter;
+import com.springapi.demo.util.StatusCode;
 
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -11,9 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class BaseController {
     @GetMapping("/")
     public String getBaseLink() {
-        JsonFormatter json = new JsonFormatter(200);
-        json.put("data", "Welcome to my test application");
-
-        return json.toString();
+        return JsonFormatter.makeJsonResponse(StatusCode.OK, "Welcome to my test application");
     }
 }

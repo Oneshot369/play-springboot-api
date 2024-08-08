@@ -5,9 +5,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.google.gson.Gson;
 import com.springapi.demo.interfaces.UserRepositoryInterface;
 import com.springapi.demo.model.dataObject.UserModel;
 import com.springapi.demo.model.entity.UserEntity;
+import com.springapi.demo.util.JsonFormatter;
+import com.springapi.demo.util.StatusCode;
 
 @Service
 public class UserService {
@@ -21,23 +24,21 @@ public class UserService {
      * @param id
      * @return
      */
-    public JsonFormatter getUserById(Long id) {
+    public String getUserById(Long id) {
         List<UserEntity> userEntityList = userDAO.getByUserId(id);
         //check the response
         if(userEntityList.isEmpty()){
-            //we did not find the result
-            JsonFormatter js = new JsonFormatter(404);
-            js.put("Error", String.format("User not found by ID: %d", id));
-            return js;
+
+            return JsonFormatter.makeJsonResponse(StatusCode.NOT_FOUND, String.format("User not found by ID: %d", id));
         }
         UserEntity userEntity = userEntityList.get(0);
 
         //convert from entity to user
         UserModel userModel = new UserModel();
+
         userModel.convertValuesEntity(userEntity);
-        JsonFormatter js = new JsonFormatter(200);
-        js.put("User", userModel);
-        return js;
+
+        return JsonFormatter.makeJsonResponse(StatusCode.OK, userModel);
     }
      /**
      * gets one user by ID
@@ -45,13 +46,11 @@ public class UserService {
      * @param id
      * @return
      */
-    public JsonFormatter saveUser(UserModel id) {
+    public String saveUser(UserModel id) {
         UserEntity entity = new UserEntity();
         entity.convertValuesModel(id);
         UserEntity userID = userDAO.save(entity);
-        JsonFormatter js = new JsonFormatter(200);
-        js.put("response", String.format("User Added with ID %s", userID.getUserId()));
-        return js;
+        return JsonFormatter.makeJsonResponse(StatusCode.OK, String.format("User saved with Id: %s", userID.getUserId()));
     }
     
 }
