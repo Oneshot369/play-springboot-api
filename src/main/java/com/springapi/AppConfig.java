@@ -17,10 +17,8 @@ import org.springframework.transaction.PlatformTransactionManager;
 
 import com.springapi.demo.data.UserMockData;
 import com.springapi.demo.interfaces.IUserDAO;
-import com.springapi.demo.interfaces.UserRepositoryInterface;
 import com.springapi.demo.services.UserService;
 
-import jakarta.persistence.EntityManagerFactory;
 
 @Configuration
 @EnableJpaRepositories("com.springapi.demo")

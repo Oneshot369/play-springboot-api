@@ -3,11 +3,8 @@ package com.springapi.demo.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
-import com.springapi.demo.data.UserMockData;
-import com.springapi.demo.interfaces.IUserDAO;
 import com.springapi.demo.interfaces.UserRepositoryInterface;
 import com.springapi.demo.model.dataObject.UserModel;
 import com.springapi.demo.model.entity.UserEntity;

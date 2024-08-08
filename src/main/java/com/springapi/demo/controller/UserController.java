@@ -3,10 +3,7 @@ package com.springapi.demo.controller;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.springapi.demo.model.dataObject.UserModel;
-import com.springapi.demo.services.JsonFormatter;
 import com.springapi.demo.services.UserService;
-
-import java.net.http.HttpResponse.ResponseInfo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
