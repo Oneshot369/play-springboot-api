@@ -10,13 +10,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserModel {
-    private Long userId;
+    private Long Id;
     private String firstName;
     private String lastName;
     private int age;
 
     public void convertValuesEntity(UserEntity userEntity){
-        userId = userEntity.getUserId();
+        Id = userEntity.getUserId();
         firstName = userEntity.getFirstName();
         lastName = userEntity.getLastName();
         age = userEntity.getAge();

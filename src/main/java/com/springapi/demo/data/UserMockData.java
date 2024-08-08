@@ -22,7 +22,7 @@ public class UserMockData implements IUserDAO{
     public UserModel getUserByID(int id) {
         //get the user in the list that matches the ID given
         return users.stream()
-        .filter(user -> user.getUserId() == id).
+        .filter(user -> user.getId() == id).
         findFirst()
         .orElse(new UserModel(-1L, null, null, -1));
     }

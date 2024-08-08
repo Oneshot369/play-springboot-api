@@ -14,7 +14,7 @@ public class JsonFormatter {
         js.put("response", status);
     }
 
-    public void put(String key, String value){
+    public void put(String key, Object value){
         js.put(key, value);
     }
     @Override

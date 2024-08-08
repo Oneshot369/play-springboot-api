@@ -3,11 +3,17 @@ package com.springapi.demo.controller;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.springapi.demo.model.dataObject.UserModel;
+import com.springapi.demo.services.JsonFormatter;
 import com.springapi.demo.services.UserService;
+
+import java.net.http.HttpResponse.ResponseInfo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 
 
@@ -17,12 +23,13 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    public UserController(UserService userService){
-        this.userService = userService;
+    @GetMapping("/getUserById")
+    public String getUserById(@RequestParam Long id){
+        return userService.getUserById(id).toString();
     }
 
-    @GetMapping("/getUserById")
-    public UserModel getUserById(@RequestParam Long id){
-        return userService.getUserById(id);
+    @PostMapping("/saveUser")
+    public String saveUser(@RequestBody UserModel id){
+        return userService.saveUser(id).toString();
     }
 }
