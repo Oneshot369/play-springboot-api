@@ -15,7 +15,7 @@ import com.springapi.demo.util.StatusCode;
 public class UserService {
     
     @Autowired
-    private UserRepositoryInterface userDAO;
+    private UserRepositoryInterface userRepo;
 
     /**
      * gets one user by ID
@@ -24,7 +24,7 @@ public class UserService {
      * @return
      */
     public String getUserById(Long id) {
-        List<UserEntity> userEntityList = userDAO.getByUserId(id);
+        List<UserEntity> userEntityList = userRepo.getByUserId(id);
         //check the response
         if(userEntityList.isEmpty()){
 
@@ -39,6 +39,15 @@ public class UserService {
 
         return JsonFormatter.makeJsonResponse(StatusCode.OK, userModel);
     }
+
+    public String getAllUsers(){
+        List<UserEntity> userEntityList = userRepo.findAll();
+        if(userEntityList.isEmpty()){
+            return JsonFormatter.makeJsonResponse(StatusCode.NOT_FOUND, userEntityList);
+        }
+        return JsonFormatter.makeJsonResponse(StatusCode.OK, userEntityList);
+    }
+
      /**
      * gets one user by ID
      * if none is found then return new UserModel(-1, null, null, -1)
@@ -48,7 +57,7 @@ public class UserService {
     public String saveUser(UserModel id) {
         UserEntity entity = new UserEntity();
         entity.convertValuesModel(id);
-        UserEntity userID = userDAO.save(entity);
+        UserEntity userID = userRepo.save(entity);
         return JsonFormatter.makeJsonResponse(StatusCode.OK, String.format("User saved with Id: %s", userID.getUserId()));
     }
     

@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 
-
-
 @RestController
 public class UserController {
 
@@ -22,11 +20,16 @@ public class UserController {
 
     @GetMapping("/getUserById")
     public String getUserById(@RequestParam Long id){
-        return userService.getUserById(id).toString();
+        return userService.getUserById(id);
+    }
+
+    @GetMapping("/getAllUsers")
+    public String getAllUsers(){
+        return userService.getAllUsers();
     }
 
     @PostMapping("/saveUser")
     public String saveUser(@RequestBody UserModel id){
-        return userService.saveUser(id).toString();
+        return userService.saveUser(id);
     }
 }
