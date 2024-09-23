@@ -21,6 +21,8 @@ public class UserEntity {
     private Long userId;
     private String firstName;
     private String lastName;
+    private String username;
+    private String password;
     private int age;
 
     public UserEntity(Long userId, String firstName, String lastName, int age) {
@@ -35,5 +37,7 @@ public class UserEntity {
         firstName = userModel.getFirstName();
         lastName = userModel.getLastName();
         age = userModel.getAge();
+        username = userModel.getUsername();
+        password = userModel.getPassword();
     }
 }

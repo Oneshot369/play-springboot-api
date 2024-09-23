@@ -56,6 +56,7 @@ public class UserService {
      */
     public String saveUser(UserModel id) {
         UserEntity entity = new UserEntity();
+        
         entity.convertValuesModel(id);
         UserEntity userID = userRepo.save(entity);
         return JsonFormatter.makeJsonResponse(StatusCode.OK, String.format("User saved with Id: %s", userID.getUserId()));

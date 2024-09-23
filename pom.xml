@@ -53,12 +53,22 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter</artifactId>
 			<version>3.1.0</version>
+
+			<!-- Exclude springboots logging framework -->
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 			<version>3.1.0</version>
 		</dependency>
+
+		<!-- Log4J -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-log4j2</artifactId>
+			<version>3.3.2</version>
+		</dependency>
+
 
 		<!-- Hibernate -->
 		<dependency>
@@ -79,6 +89,28 @@
 			<artifactId>jasypt-spring-boot-starter</artifactId>
 			<version>3.0.4</version>
 		</dependency>
+
+		<!-- Swagger -->
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+			<version>2.6.0</version>
+		</dependency>
+		<!-- BCrypt -->
+		<dependency>
+			<groupId>at.favre.lib</groupId>
+			<artifactId>bcrypt</artifactId>
+			<version>0.10.2</version>
+		</dependency>
+		<!-- email -->
+		<!-- https://mvnrepository.com/artifact/com.mashape.unirest/unirest-java -->
+		<dependency>
+			<groupId>com.mashape.unirest</groupId>
+			<artifactId>unirest-java</artifactId>
+			<version>1.4.9</version>
+		</dependency>
+
+
 	</dependencies>
 	<build>
 		<plugins>

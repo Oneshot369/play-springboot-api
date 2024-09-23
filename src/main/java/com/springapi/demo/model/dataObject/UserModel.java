@@ -13,6 +13,8 @@ public class UserModel {
     private Long Id;
     private String firstName;
     private String lastName;
+    private String username;
+    private String password;
     private int age;
 
     public void convertValuesEntity(UserEntity userEntity){
@@ -20,5 +22,7 @@ public class UserModel {
         firstName = userEntity.getFirstName();
         lastName = userEntity.getLastName();
         age = userEntity.getAge();
+        username = userEntity.getUsername();
+        password = userEntity.getPassword();
     }
 }
