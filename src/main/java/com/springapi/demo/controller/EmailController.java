@@ -7,11 +7,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.springapi.demo.services.EmailService;
-import com.springapi.demo.services.WeatherService;
 import com.springapi.demo.util.ResponseObject;
 
 import io.swagger.v3.oas.annotations.media.Content;
