@@ -18,10 +18,19 @@ public class WeatherService {
 
     private static final Logger _LOGGER = LogManager.getLogger(SpringBootApplication.class);
 
-    public String getWeather(Double lat, Double lon){
+    public String getWeatherFromLatAndLon(Double lat, Double lon){
         _LOGGER.info("calling weather API");
         //make api call
         String uri = host + String.format("data/2.5/weather?lat=%f&lon=%f&appid=%s&units=%s", lat, lon, key, "imperial");
+        RestTemplate restTemp = new RestTemplate();
+        String res = restTemp.getForObject(uri, String.class);
+        _LOGGER.debug("request res: ", res);
+        return res;
+    }
+    public String getWeatherFromName(String locationName){
+        _LOGGER.info("calling weather API2");
+        //make api call
+        String uri = host + String.format("geo/1.0/direct?q=%s&limit=5&appid=%s", locationName, key, "imperial");
         RestTemplate restTemp = new RestTemplate();
         String res = restTemp.getForObject(uri, String.class);
         _LOGGER.debug("request res: ", res);

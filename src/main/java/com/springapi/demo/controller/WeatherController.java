@@ -37,8 +37,13 @@ public class WeatherController {
     private static final Logger _LOGGER = LogManager.getLogger(SpringBootApplication.class);
 
     @GetMapping("/getWeather")
-    public String getWeatherTest(@RequestParam Double lat, @RequestParam Double lon){
+    public String getWeather(@RequestParam Double lat, @RequestParam Double lon){
         _LOGGER.info(String.format("request for weather at location: %s, %s", lat, lon));
-        return weatherService.getWeather(lat, lon);
+        return weatherService.getWeatherFromLatAndLon(lat, lon);
+    }
+    @GetMapping("/getWeatherFromName")
+    public String getWeatherFromName(@RequestParam String locationName){
+        _LOGGER.info(String.format("request for weather at location: %s", locationName));
+        return weatherService.getWeatherFromName(locationName);
     }
 }
