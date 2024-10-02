@@ -5,9 +5,11 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.client.RestTemplate;
 
 @Service
+@CrossOrigin("http://localhost:5173/")
 public class WeatherService {
     
     @Value("${weather.api.key}")
