@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.client.RestTemplate;
 
 @Service
-@CrossOrigin("http://localhost:5173/")
+@CrossOrigin("${cors.frontend.url}")
 public class WeatherService {
     
     @Value("${weather.api.key}")
