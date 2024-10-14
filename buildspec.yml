@@ -1,6 +1,9 @@
 version: 1.2
 
-phases: 
+phases:
+  install:
+    runtime-versions:
+      java: corretto17 
   build:
     commands:
       - echo Packaging JAR File...
