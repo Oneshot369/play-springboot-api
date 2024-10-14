@@ -17,7 +17,9 @@ import java.util.HashMap;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -34,13 +36,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class BaseController {
 
     private static final Logger _LOGGER = LogManager.getLogger(SpringBootApplication.class);
+
+    @Autowired
+	private Environment env;
+
+
     @GetMapping("/")
     @Operation(
         description = "Health check endpoint that responds with static data",
         summary = "Health check endpoint"
     )
     public String getBaseLink() {
-        _LOGGER.info("testing");
+        String[] activeProfiles = env.getActiveProfiles();
+        if(activeProfiles !=null)
+            _LOGGER.info("in env: " + activeProfiles[0]);
+        
         return JsonFormatter.makeJsonResponse(StatusCode.OK, "Welcome to my test application");
     }
     
