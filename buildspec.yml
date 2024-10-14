@@ -11,7 +11,7 @@ phases:
   post_build:
     commands:
       - echo build done.
-  artifacts:
-    files:
-      - target/weather-app.jar
-    discard-paths: yes
+artifacts:
+  files:
+    - target/weather-app.jar
+  discard-paths: yes
