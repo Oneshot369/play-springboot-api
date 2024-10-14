@@ -28,7 +28,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
     @ApiResponse(responseCode = "200",description = "Success", content = { @Content(mediaType="application/json", schema = @Schema(implementation = ResponseObject.class))}),
     @ApiResponse(responseCode = "500", description = "Internal Error", content = { @Content(mediaType="application/json", schema = @Schema(implementation = ResponseObject.class))})
 })
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = "${cors.frontend.url}")
 public class WeatherController {
 
     @Autowired

@@ -1,0 +1,13 @@
+version: 0.0
+phases: 
+  build:
+    commands:
+      - echo Packaging JAR File...
+      - mvn clean package
+  post_build:
+    commands:
+      - echo build done.
+  artifacts:
+    files:
+      - target/weather-app.jar
+    discard-paths: yes
