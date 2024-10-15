@@ -41,6 +41,11 @@ public class WeatherController {
         _LOGGER.info(String.format("request for weather at location: %s, %s", lat, lon));
         return weatherService.getWeatherFromLatAndLon(lat, lon);
     }
+    @GetMapping("/getForecast")
+    public String getForecast(@RequestParam Double lat, @RequestParam Double lon){
+        _LOGGER.info(String.format("request for forecast at location: %s, %s", lat, lon));
+        return weatherService.getForecastFromLatAndLon(lat, lon);
+    }
     @GetMapping("/getWeatherFromName")
     public String getWeatherFromName(@RequestParam String locationName){
         _LOGGER.info(String.format("request for weather at location: %s", locationName));
