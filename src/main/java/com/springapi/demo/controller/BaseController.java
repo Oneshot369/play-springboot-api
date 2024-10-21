@@ -4,7 +4,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.springapi.demo.util.JsonFormatter;
 import com.springapi.demo.util.ResponseObject;
-import com.springapi.demo.util.StatusCode;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -13,13 +12,12 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-import java.util.HashMap;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.core.env.Environment;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -51,18 +49,7 @@ public class BaseController {
         if(activeProfiles !=null)
             _LOGGER.info("in env: " + activeProfiles[0]);
         
-        return JsonFormatter.makeJsonResponse(StatusCode.OK, "Welcome to my test application");
+        return JsonFormatter.makeJsonResponse(HttpStatus.OK, "Welcome to my test application");
     }
     
-    @Operation(summary = "Gets Possible response codes",
-            description = "This endpoint gets all of our response codes")
-    @GetMapping("/codes")
-    public String getCodes() {
-        //make a hash map for the codes
-        HashMap<String, Integer> resCodesMap = new HashMap<>();
-        for (StatusCode val : StatusCode.values()) {
-            resCodesMap.put(val.name(), val.getStatus());
-        }
-        return JsonFormatter.makeJsonResponse(StatusCode.OK, resCodesMap);
-    }
 }
