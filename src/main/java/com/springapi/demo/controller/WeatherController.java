@@ -56,6 +56,11 @@ public class WeatherController {
         
         return JsonFormatter.makeJsonResponse(HttpStatus.OK, currentWeatherModel);
     }
+    @GetMapping("/getForecast")
+    public String getForecast(@RequestParam Double lat, @RequestParam Double lon){
+        _LOGGER.info(String.format("request for forecast at location: %s, %s", lat, lon));
+        return weatherService.getForecastFromLatAndLon(lat, lon);
+    }
     @GetMapping("/getWeatherFromName")
     public String getWeatherFromName(@RequestParam String locationName){
         _LOGGER.info(String.format("request for weather at location: %s", locationName));

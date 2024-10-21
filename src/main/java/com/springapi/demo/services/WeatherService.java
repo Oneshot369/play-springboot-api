@@ -84,5 +84,14 @@ public class WeatherService {
         _LOGGER.debug("request res: ", res);
         return res;
     }
+    public String getForecastFromLatAndLon(Double lat, Double lon) {
+        _LOGGER.info("calling weather API: get forecast weather");
+        //make api call
+        String uri = host + String.format("data/2.5/forecast?lat=%f&lon=%f&appid=%s&units=%s", lat, lon, key, "imperial");
+        RestTemplate restTemp = new RestTemplate();
+        String res = restTemp.getForObject(uri, String.class);
+        _LOGGER.debug("request res: ", res);
+        return res;
+    }
     
 }
