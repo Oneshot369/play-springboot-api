@@ -3,7 +3,6 @@ package com.springapi.demo.model.dataObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.springapi.demo.model.entity.ConstraintEntity;
 import com.springapi.demo.model.entity.UserLocationEntities;
 
 import lombok.AllArgsConstructor;

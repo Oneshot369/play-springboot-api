@@ -8,8 +8,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.springapi.demo.interfaces.UserRepositoryInterface;
+import com.springapi.demo.model.dataObject.ConstraintModel;
+import com.springapi.demo.model.dataObject.UserLocationModel;
 import com.springapi.demo.model.dataObject.UserModel;
+import com.springapi.demo.model.entity.ConstraintEntity;
 import com.springapi.demo.model.entity.UserEntity;
+import com.springapi.demo.model.entity.UserLocationEntities;
 import com.springapi.demo.util.JsonFormatter;
 
 @Service
@@ -83,6 +87,24 @@ public class UserService {
         entity.convertValuesModel(model);
         UserEntity userID = userRepo.save(entity);
         return JsonFormatter.makeJsonResponse(HttpStatus.OK, String.format("User saved with Id: %s", userID.getId()));
+    }
+
+    public String saveLocationToUser(UserLocationModel userLocation, int userId) {
+        UserLocationEntities userLocationEntities = new UserLocationEntities();
+        userLocationEntities.convertValuesModel(userLocation);
+
+        userRepo.saveLocationToUser(userLocation.getLat(), userLocation.getLon(), userLocation.getName(), userId);
+
+        return JsonFormatter.makeJsonResponse(HttpStatus.OK, String.format("Location was saved for user: %d", userId));
+    }
+
+    public String saveConstraintToUser(ConstraintModel userConstraint, int locationId) {
+        ConstraintEntity constraintEntity = new ConstraintEntity();
+        constraintEntity.convertValuesModel(userConstraint);
+
+        userRepo.saveConstraintToLocation(locationId, constraintEntity.getCondition().toString(), constraintEntity.getVal(), constraintEntity.isGreaterThan(),constraintEntity.getName());
+        // TODO Auto-generated method stub
+        return JsonFormatter.makeJsonResponse(HttpStatus.OK, String.format("Constraint was saved for location: %d", locationId));
     }
     
 }

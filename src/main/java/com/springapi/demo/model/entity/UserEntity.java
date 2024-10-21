@@ -3,7 +3,6 @@ package com.springapi.demo.model.entity;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.springapi.demo.model.dataObject.UserLocationModel;
 import com.springapi.demo.model.dataObject.UserModel;
 
 import jakarta.persistence.CascadeType;

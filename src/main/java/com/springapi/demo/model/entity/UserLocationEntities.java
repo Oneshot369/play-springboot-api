@@ -35,9 +35,9 @@ public class UserLocationEntities {
     @JoinColumn(name="location_id")
     private List<ConstraintEntity> constraints;
 
-    @ManyToOne
-    @JoinColumn(name="user_id")
-    private UserEntity user;
+    // @ManyToOne
+    // @JoinColumn(name="user_id")
+    // private UserEntity user;
 
     public UserLocationEntities convertValuesModel(UserLocationModel model){
         id = model.getId();

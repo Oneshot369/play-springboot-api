@@ -1,6 +1,7 @@
 package com.springapi.demo.model.dataObject;
 
 import com.springapi.demo.model.entity.ConstraintEntity;
+import com.springapi.demo.model.weatherResponse.WeatherTypes;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,18 +13,17 @@ import lombok.NoArgsConstructor;
 public class ConstraintModel {
 
     private int id;
-    private int locationId;
     private String name;
-    private String condition;
+    private WeatherTypes condition;
     private String val;
-    private boolean isGreaterOrLessThan;
+    private boolean greaterThan;
 
     public ConstraintModel convertValuesModel(ConstraintEntity model){
         id = model.getId();
         name = model.getName();
-        condition = model.getCondition();
+        condition = WeatherTypes.valueOf(model.getCondition());
         val = model.getVal();
-        isGreaterOrLessThan = model.isGreaterOrLessThan();
+        greaterThan = model.isGreaterThan();
         return this;
     }
 }

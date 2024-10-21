@@ -2,6 +2,8 @@ package com.springapi.demo.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import com.springapi.demo.model.dataObject.ConstraintModel;
+import com.springapi.demo.model.dataObject.UserLocationModel;
 import com.springapi.demo.model.dataObject.UserModel;
 import com.springapi.demo.services.UserService;
 import com.springapi.demo.util.ResponseObject;
@@ -35,9 +37,13 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/getUserById")
-    // @Hidden -  this annotation can be used to hide an endpoint
     public String getUserById(@RequestParam Long id){
         return userService.getUserById(id);
+    }
+
+    @GetMapping("/getUserByUsername")
+    public String getUserById(@RequestParam String username){
+        return userService.getUserByName(username);
     }
 
     @GetMapping("/getAllUsers")
@@ -48,5 +54,18 @@ public class UserController {
     @PostMapping("/saveUser")
     public String saveUser(@RequestBody UserModel user){
         return userService.saveUser(user);
+    }
+
+    @PostMapping("/saveLocation")
+    public String saveLocation(@RequestBody UserLocationModel userLocation){
+        int userId = userLocation.getId();
+        
+        return userService.saveLocationToUser(userLocation, userId);
+    }
+    @PostMapping("/saveConstraint")
+    public String saveConstraint(@RequestBody ConstraintModel userConstraint){
+        int locationId = userConstraint.getId();
+        
+        return userService.saveConstraintToUser(userConstraint, locationId);
     }
 }
