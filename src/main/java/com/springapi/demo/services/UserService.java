@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import com.springapi.demo.interfaces.ConstraintRepositoryInterface;
+import com.springapi.demo.interfaces.LocationRepositoryInterface;
 import com.springapi.demo.interfaces.UserRepositoryInterface;
 import com.springapi.demo.model.dataObject.ConstraintModel;
 import com.springapi.demo.model.dataObject.UserLocationModel;
@@ -21,6 +23,10 @@ public class UserService {
     
     @Autowired
     private UserRepositoryInterface userRepo;
+    @Autowired
+    private LocationRepositoryInterface locationRepo;
+    @Autowired
+    private ConstraintRepositoryInterface constraintRepo;
 
     /**
      * gets one user by ID
@@ -89,22 +95,50 @@ public class UserService {
         return JsonFormatter.makeJsonResponse(HttpStatus.OK, String.format("User saved with Id: %s", userID.getId()));
     }
 
+    //-------------------------LOCATIONS----------------------------------
+
     public String saveLocationToUser(UserLocationModel userLocation, int userId) {
         UserLocationEntities userLocationEntities = new UserLocationEntities();
         userLocationEntities.convertValuesModel(userLocation);
 
-        userRepo.saveLocationToUser(userLocation.getLat(), userLocation.getLon(), userLocation.getName(), userId);
+        locationRepo.saveLocationToUser(userLocation.getLat(), userLocation.getLon(), userLocation.getName(), userId);
 
         return JsonFormatter.makeJsonResponse(HttpStatus.OK, String.format("Location was saved for user: %d", userId));
     }
+
+    public String updateLocation(UserLocationModel userLocation) {
+        locationRepo.updateLocationById(userLocation.getName(), userLocation.getLat(), userLocation.getLon(), userLocation.getId());
+
+        return JsonFormatter.makeJsonResponse(HttpStatus.OK, String.format("Location was Updated."));
+    }
+
+    public String deleteLocation(int locationId) {
+        locationRepo.deleteLocationById(locationId);
+
+        return JsonFormatter.makeJsonResponse(HttpStatus.OK, String.format("Location was deleted."));
+    }
+
+    //-----------------------------Constraints-----------------------------
 
     public String saveConstraintToUser(ConstraintModel userConstraint, int locationId) {
         ConstraintEntity constraintEntity = new ConstraintEntity();
         constraintEntity.convertValuesModel(userConstraint);
 
-        userRepo.saveConstraintToLocation(locationId, constraintEntity.getCondition().toString(), constraintEntity.getVal(), constraintEntity.isGreaterThan(),constraintEntity.getName());
+        constraintRepo.saveConstraintToLocation(locationId, constraintEntity.getCondition().toString(), constraintEntity.getVal(), constraintEntity.isGreaterThan(),constraintEntity.getName());
         // TODO Auto-generated method stub
         return JsonFormatter.makeJsonResponse(HttpStatus.OK, String.format("Constraint was saved for location: %d", locationId));
+    }
+
+    public String updateConstraint(ConstraintModel userLocation) {
+        constraintRepo.updateConstraintById(userLocation.getName(), userLocation.getCondition().toString(), userLocation.getVal(), userLocation.isGreaterThan(), userLocation.getId());
+
+        return JsonFormatter.makeJsonResponse(HttpStatus.OK, String.format("Constraint was updated."));
+    }
+
+    public String deleteConstraint(int locationId) {
+        constraintRepo.deleteById(locationId);
+
+        return JsonFormatter.makeJsonResponse(HttpStatus.OK, String.format("Constraint was deleted."));
     }
     
 }

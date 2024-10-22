@@ -7,8 +7,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.client.HttpClientErrorException;
@@ -17,7 +15,6 @@ import org.springframework.web.client.RestTemplate;
 import com.springapi.demo.model.weatherResponse.CurrentWeatherModel;
 import com.springapi.demo.model.weatherResponse.ForecastModel;
 import com.springapi.demo.model.weatherResponse.LocationModel;
-import com.springapi.demo.model.weatherResponse.submodels.ForecastItemModel;
 
 @Service
 @CrossOrigin("${cors.frontend.url}")

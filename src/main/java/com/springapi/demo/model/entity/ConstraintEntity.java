@@ -1,7 +1,6 @@
 package com.springapi.demo.model.entity;
 
 import com.springapi.demo.model.dataObject.ConstraintModel;
-import com.springapi.demo.model.weatherResponse.WeatherTypes;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

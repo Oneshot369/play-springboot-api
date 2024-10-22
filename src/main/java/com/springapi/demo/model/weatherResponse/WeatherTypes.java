@@ -1,7 +1,5 @@
 package com.springapi.demo.model.weatherResponse;
 
-import lombok.AllArgsConstructor;
-
 public enum WeatherTypes {
     TEMP,
     FEELS_LIKE,
