@@ -1,5 +1,6 @@
 package com.springapi.demo.model.entity;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +31,7 @@ public class UserEntity {
     private String username;
     private String password;
     private int age;
+    private String lastLogin;
     //user has a list of locations
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name="user_id")
@@ -49,6 +51,7 @@ public class UserEntity {
         age = model.getAge();
         username = model.getUsername();
         password = model.getPassword();
+        lastLogin = model.getLastLogin();
         List<UserLocationEntities> locationList = new ArrayList<>();
         if(model.getLocations() != null)
             model.getLocations().forEach((e) -> {locationList.add(new UserLocationEntities().convertValuesModel(e));});

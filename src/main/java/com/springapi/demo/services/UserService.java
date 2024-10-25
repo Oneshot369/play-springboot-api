@@ -1,6 +1,7 @@
 package com.springapi.demo.services;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import com.springapi.demo.model.dataObject.UserModel;
 import com.springapi.demo.model.entity.ConstraintEntity;
 import com.springapi.demo.model.entity.UserEntity;
 import com.springapi.demo.model.entity.UserLocationEntities;
+import com.springapi.demo.util.DateUtil;
 import com.springapi.demo.util.JsonFormatter;
 
 @Service
@@ -89,7 +91,8 @@ public class UserService {
      */
     public String saveUser(UserModel model) {
         UserEntity entity = new UserEntity();
-        
+        //get current date as string
+        model.setLastLogin(DateUtil.getCurrentTime());
         entity.convertValuesModel(model);
         UserEntity userID = userRepo.save(entity);
         return JsonFormatter.makeJsonResponse(HttpStatus.OK, String.format("User saved with Id: %s", userID.getId()));

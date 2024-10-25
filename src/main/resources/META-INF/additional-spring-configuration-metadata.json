@@ -28,5 +28,10 @@
     "name": "cors.frontend.url",
     "type": "java.lang.String",
     "description": "A description for 'cors.frontend.url'"
+  },
+  {
+    "name": "date.format",
+    "type": "java.lang.String",
+    "description": "A description for 'date.format'"
   }
 ]}

@@ -1,5 +1,6 @@
 package com.springapi.demo.model.dataObject;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +22,7 @@ public class UserModel {
     private String password;
     private int age;
     private int userId;
+    private String lastLogin;
     private List<UserLocationModel> locations;
 
     public UserModel convertValuesModel(UserEntity userEntity){
@@ -30,6 +32,7 @@ public class UserModel {
         age = userEntity.getAge();
         username = userEntity.getUsername();
         password = userEntity.getPassword();
+        lastLogin = userEntity.getLastLogin();
         List<UserLocationModel> locationList = new ArrayList<>();
         if(userEntity.getLocations() != null)
             userEntity.getLocations().forEach((e) -> {locationList.add(new UserLocationModel().convertValuesModel(e));});
