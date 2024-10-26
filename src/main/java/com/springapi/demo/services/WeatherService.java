@@ -66,7 +66,7 @@ public class WeatherService {
     public ForecastModel getForecast(Double lat, Double lon) {
         _LOGGER.info(String.format("Getting Forecast from lat: %f, lon: %f", lat, lon));
         //make api call
-        String uri = host + String.format("data/2.5/forecast?lat=%f&lon=%f&appid=%s&units=%s&cnt=%d", lat, lon, key, "imperial", 5);
+        String uri = host + String.format("data/2.5/forecast?lat=%f&lon=%f&appid=%s&units=%s&cnt=%d", lat, lon, key, "imperial", 10);
         RestTemplate restTemp = new RestTemplate();
         
         ForecastModel res;
