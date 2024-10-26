@@ -1,8 +1,6 @@
 package com.springapi.demo.interfaces;
 
 import com.springapi.demo.model.entity.ConstraintEntity;
-import com.springapi.demo.model.entity.UserLocationEntities;
-import com.springapi.demo.model.weatherResponse.WeatherTypes;
 
 import jakarta.transaction.Transactional;
 
