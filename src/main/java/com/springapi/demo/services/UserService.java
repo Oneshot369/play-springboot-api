@@ -5,22 +5,34 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.springapi.demo.interfaces.ConstraintRepositoryInterface;
-import com.springapi.demo.interfaces.LocationRepositoryInterface;
-import com.springapi.demo.interfaces.UserRepositoryInterface;
+import com.springapi.demo.config.JwtAuthenticationFilter;
+import com.springapi.demo.config.JwtTokenProvider;
 import com.springapi.demo.model.dataObject.ConstraintModel;
+import com.springapi.demo.model.dataObject.LoginAttemptModel;
 import com.springapi.demo.model.dataObject.UserLocationModel;
 import com.springapi.demo.model.dataObject.UserModel;
 import com.springapi.demo.model.entity.ConstraintEntity;
 import com.springapi.demo.model.entity.UserEntity;
 import com.springapi.demo.model.entity.UserLocationEntities;
+import com.springapi.demo.repos.ConstraintRepositoryInterface;
+import com.springapi.demo.repos.LocationRepositoryInterface;
+import com.springapi.demo.repos.UserRepositoryInterface;
 import com.springapi.demo.util.DateUtil;
 import com.springapi.demo.util.JsonFormatter;
 
 @Service
-public class UserService {
+public class UserService{
     
     @Autowired
     private UserRepositoryInterface userRepo;
@@ -28,6 +40,12 @@ public class UserService {
     private LocationRepositoryInterface locationRepo;
     @Autowired
     private ConstraintRepositoryInterface constraintRepo;
+    @Autowired
+    private AuthenticationManager authenticationManager;
+    @Autowired
+    private JwtTokenProvider jwtTokenProvider;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     /**
      * gets one user by ID
@@ -93,6 +111,7 @@ public class UserService {
         //get current date as string
         model.setLastLogin(DateUtil.getCurrentTime());
         entity.convertValuesModel(model);
+        entity.setPassword(passwordEncoder.encode(entity.getPassword()));
         UserEntity userID = userRepo.save(entity);
         return JsonFormatter.makeJsonResponse(HttpStatus.OK, String.format("User saved with Id: %s", userID.getId()));
     }
@@ -141,6 +160,22 @@ public class UserService {
         constraintRepo.deleteById(locationId);
 
         return JsonFormatter.makeJsonResponse(HttpStatus.OK, String.format("Constraint was deleted."));
+    }
+
+    public String attemptLogin(LoginAttemptModel loginAttempt) {
+        try{
+            Authentication auth = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                    loginAttempt.getUsername(), loginAttempt.getPassword())
+            );
+            SecurityContextHolder.getContext().setAuthentication(auth);
+
+            String jwt = jwtTokenProvider.generateToken(auth);
+            return JsonFormatter.makeJsonResponse(HttpStatus.OK, jwt);
+        } 
+        catch(Exception e){
+            return JsonFormatter.makeJsonResponse(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
     }
     
 }

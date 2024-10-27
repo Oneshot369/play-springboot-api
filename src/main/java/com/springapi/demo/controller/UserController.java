@@ -3,6 +3,7 @@ package com.springapi.demo.controller;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.springapi.demo.model.dataObject.ConstraintModel;
+import com.springapi.demo.model.dataObject.LoginAttemptModel;
 import com.springapi.demo.model.dataObject.UserLocationModel;
 import com.springapi.demo.model.dataObject.UserModel;
 import com.springapi.demo.services.UserService;
@@ -42,6 +43,11 @@ public class UserController {
     @GetMapping("/getUserById")
     public String getUserById(@RequestParam Long id){
         return userService.getUserById(id);
+    }
+
+    @PostMapping("/login")
+    public String attemptLogin(@RequestBody LoginAttemptModel loginAttempt){
+        return userService.attemptLogin(loginAttempt);
     }
 
     @GetMapping("/getUserByUsername")

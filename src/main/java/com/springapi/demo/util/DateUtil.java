@@ -3,12 +3,9 @@ package com.springapi.demo.util;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.springframework.beans.factory.annotation.Value;
-
 public class DateUtil {
 
-    @Value("${date.format}")
-    private static String format;
+    private static String format = "yyyy-mm-dd hh:mm:ss";
 
 
     public static String getCurrentTime(){
