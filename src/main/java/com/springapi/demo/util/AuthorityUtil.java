@@ -10,7 +10,6 @@ public class AuthorityUtil {
     public static boolean hasAuthorities(User user){
         Collection<GrantedAuthority> authorities = user.getAuthorities();
         for(GrantedAuthority ga: authorities){
-            String s = ga.getAuthority();
             if("ADMIN".equals(ga.getAuthority()))
                 return true;
         }

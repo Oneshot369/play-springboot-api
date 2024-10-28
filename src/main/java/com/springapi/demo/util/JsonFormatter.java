@@ -1,6 +1,5 @@
 package com.springapi.demo.util;
 
-import java.time.LocalDateTime;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.web.client.HttpClientErrorException;
