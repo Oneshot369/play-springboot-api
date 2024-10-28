@@ -30,8 +30,8 @@ public class SecurityConfig {
             .csrf(AbstractHttpConfigurer::disable)
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
-                .requestMatchers( "/api/v1/users", "/api/v1/weather", "/api/v1/").permitAll()
-                 .requestMatchers("/api/v1/auth").authenticated()
+                .requestMatchers( "/api/v1/user/login", "/api/v1/user/saveUser", "/api/v1/weather/**", "/api/v1/").permitAll()
+                .requestMatchers("/api/v1/auth", "/api/v1/user/**").authenticated()
                 .anyRequest().authenticated())
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();

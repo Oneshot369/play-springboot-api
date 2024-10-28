@@ -31,7 +31,7 @@ public class UserSecurityService implements UserDetailsService{
         List<GrantedAuthority> authorities = new ArrayList<>();
         //add role of admin if they are one
         if(users.get(0).isAdmin())
-            authorities.add((GrantedAuthority) () -> "Admin");
+            authorities.add((GrantedAuthority) () -> "ADMIN");
 
         UserDetails userDetails = new User(users.get(0).getUsername(), users.get(0).getPassword(), authorities);
         //update last login time

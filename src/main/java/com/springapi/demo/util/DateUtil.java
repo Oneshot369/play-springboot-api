@@ -5,7 +5,7 @@ import java.util.Date;
 
 public class DateUtil {
 
-    private static String format = "yyyy-mm-dd hh:mm:ss";
+    private static String format = "yyyy-MM-dd hh:mm:ss";
 
 
     public static String getCurrentTime(){

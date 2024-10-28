@@ -13,10 +13,10 @@ public class JsonFormatter {
 
     public static String makeJsonResponse(HttpStatus status, Object value){
         ResponseObject responseObject = new ResponseObject();
-
+        
         responseObject.setData(value);
         responseObject.setStatus(status.value());
-        responseObject.setTime(LocalDateTime.now().toString());
+        responseObject.setTime(DateUtil.getCurrentTime());
         return js.toJson(responseObject);
     }
 
@@ -25,7 +25,7 @@ public class JsonFormatter {
 
         responseObject.setData(value.getMessage());
         responseObject.setStatus(status.value());
-        responseObject.setTime(LocalDateTime.now().toString());
+        responseObject.setTime(DateUtil.getCurrentTime());
         return js.toJson(responseObject);
     }
 }

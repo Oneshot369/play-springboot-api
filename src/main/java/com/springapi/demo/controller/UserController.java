@@ -16,6 +16,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -41,8 +43,9 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/getUserById")
-    public String getUserById(@RequestParam Long id){
-        return userService.getUserById(id);
+    public String getUserById(@RequestParam Long id, Authentication auth){
+        User user = (User) auth.getPrincipal();
+        return userService.getUserById(id, user);
     }
 
     @PostMapping("/login")
@@ -51,13 +54,15 @@ public class UserController {
     }
 
     @GetMapping("/getUserByUsername")
-    public String getUserById(@RequestParam String username){
-        return userService.getUserByName(username);
+    public String getUserById(@RequestParam String username, Authentication auth){
+        User user = (User) auth.getPrincipal();
+        return userService.getUserByName(username, user);
     }
 
     @GetMapping("/getAllUsers")
-    public String getAllUsers(){
-        return userService.getAllUsers();
+    public String getAllUsers(Authentication auth){
+        User user = (User) auth.getPrincipal();
+        return userService.getAllUsers(user);
     }
 
     @PostMapping("/saveUser")

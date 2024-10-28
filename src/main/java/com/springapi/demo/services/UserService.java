@@ -1,6 +1,7 @@
 package com.springapi.demo.services;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -28,6 +31,7 @@ import com.springapi.demo.model.entity.UserLocationEntities;
 import com.springapi.demo.repos.ConstraintRepositoryInterface;
 import com.springapi.demo.repos.LocationRepositoryInterface;
 import com.springapi.demo.repos.UserRepositoryInterface;
+import com.springapi.demo.util.AuthorityUtil;
 import com.springapi.demo.util.DateUtil;
 import com.springapi.demo.util.JsonFormatter;
 
@@ -51,15 +55,22 @@ public class UserService{
      * gets one user by ID
      * if none is found then return new UserModel(-1, null, null, -1)
      * @param id
+     * @param user 
      * @return
      */
-    public String getUserById(Long id) {
+    public String getUserById(Long id, User user) {
+        if(!AuthorityUtil.hasAuthorities(user)){
+            return JsonFormatter.makeJsonResponse(HttpStatus.FORBIDDEN, "This is a admin feature");
+        }
         UserEntity userEntity = userRepo.getById(id);
         //check the response
-        if(userEntity == null){
-
+        try{
+            userEntity.getUsername();
+        }
+        catch(Exception e){
             return JsonFormatter.makeJsonResponse(HttpStatus.NOT_FOUND, String.format("User not found by ID: %d", id));
         }
+
         //convert from entity to user
         UserModel userModel = new UserModel();
 
@@ -70,13 +81,17 @@ public class UserService{
 
     /**
      * Gets one user by name
-     * @param UserName
+     * @param username
+     * @param auth 
      * @return
      */
-    public String getUserByName(String UserName){
-        List<UserEntity> userEntityList = userRepo.findByUsername(UserName);
+    public String getUserByName(String username, User user){
+        if(!AuthorityUtil.hasAuthorities(user)){
+            return JsonFormatter.makeJsonResponse(HttpStatus.FORBIDDEN, "This is a admin feature");
+        }
+        List<UserEntity> userEntityList = userRepo.findByUsername(username);
         if(userEntityList.isEmpty()){
-            return JsonFormatter.makeJsonResponse(HttpStatus.NOT_FOUND, userEntityList);
+            return JsonFormatter.makeJsonResponse(HttpStatus.NOT_FOUND, "User not found by: " + username);
         }
 
         UserModel model = new UserModel().convertValuesModel(userEntityList.get(0));
@@ -88,10 +103,13 @@ public class UserService{
      * gets all users
      * @return
      */
-    public String getAllUsers(){
+    public String getAllUsers(User user){
+        if(!AuthorityUtil.hasAuthorities(user)){
+            return JsonFormatter.makeJsonResponse(HttpStatus.FORBIDDEN, "This is a admin feature");
+        }
         List<UserEntity> userEntityList = userRepo.findAll();
         if(userEntityList.isEmpty()){
-            return JsonFormatter.makeJsonResponse(HttpStatus.NOT_FOUND, userEntityList);
+            return JsonFormatter.makeJsonResponse(HttpStatus.NOT_FOUND, "No users found");
         }
         List<UserModel> userModels = new ArrayList<>();
         for(UserEntity e : userEntityList){
