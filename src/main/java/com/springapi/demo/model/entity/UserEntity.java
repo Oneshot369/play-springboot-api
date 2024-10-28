@@ -31,17 +31,12 @@ public class UserEntity {
     private String password;
     private int age;
     private String lastLogin;
+    @Column(name = "isAdmin")
+    private boolean isAdmin;
     //user has a list of locations
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name="user_id")
     private List<UserLocationEntities> locations;
-
-    public UserEntity(Long id, String firstName, String lastName, int age) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.age = age;
-    }
 
     public UserEntity convertValuesModel(UserModel model){
         id = model.getId();
@@ -51,6 +46,8 @@ public class UserEntity {
         username = model.getUsername();
         password = model.getPassword();
         lastLogin = model.getLastLogin();
+        //as a default set to false
+        isAdmin = false;
         List<UserLocationEntities> locationList = new ArrayList<>();
         if(model.getLocations() != null)
             model.getLocations().forEach((e) -> {locationList.add(new UserLocationEntities().convertValuesModel(e));});

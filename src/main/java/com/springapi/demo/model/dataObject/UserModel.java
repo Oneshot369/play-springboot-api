@@ -1,6 +1,5 @@
 package com.springapi.demo.model.dataObject;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 

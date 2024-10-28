@@ -1,6 +1,6 @@
 package com.springapi.demo.services;
 
-import java.text.SimpleDateFormat;
+
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -9,10 +9,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import com.springapi.demo.util.DateUtil;
+
 @Component
 public class EmailScheduler {
     private static final Logger _LOGGER = LogManager.getLogger(SpringBootApplication.class);
-    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
     @Autowired
     private EmailService emailService;
@@ -22,7 +23,7 @@ public class EmailScheduler {
         _LOGGER.info("Scheduled email");
         //currently disabled to save calls
         //uncomment to send calls
-        //emailService.sendEmail(String.format("test at %s", dateFormat.format(new Date())));
+        //emailService.sendEmail(String.format("test at %s", DateUtil.getCurrentTime()));
     }
 
 }

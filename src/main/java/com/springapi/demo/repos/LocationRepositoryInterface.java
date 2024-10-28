@@ -1,4 +1,4 @@
-package com.springapi.demo.interfaces;
+package com.springapi.demo.repos;
 
 import com.springapi.demo.model.entity.UserLocationEntities;
 import jakarta.transaction.Transactional;
