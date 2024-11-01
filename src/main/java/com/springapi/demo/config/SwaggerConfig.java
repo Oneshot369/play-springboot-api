@@ -17,7 +17,12 @@ import io.swagger.v3.oas.annotations.servers.Server;
         @Server(
             description = "local ENV",
             url = "http://localhost:8080"
+        ),
+        @Server(
+            description = "Prod",
+            url = "http://Testbackend-env.eba-sqc4mqhu.us-east-2.elasticbeanstalk.com:8080"
         )
+        
     }
 )
 public class SwaggerConfig {
