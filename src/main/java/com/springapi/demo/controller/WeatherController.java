@@ -12,19 +12,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.springapi.demo.model.weatherResponse.CurrentWeatherModel;
 import com.springapi.demo.model.weatherResponse.ForecastModel;
-import com.springapi.demo.model.weatherResponse.submodels.WeatherModel;
 import com.springapi.demo.services.WeatherService;
 import com.springapi.demo.util.ResponseObject;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
-import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 
