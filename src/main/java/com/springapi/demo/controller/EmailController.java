@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,7 +41,7 @@ public class EmailController {
         description = "Takes the message and sends an email to your account with that message",
         summary = "Sends a email - FOR TESTING ONLY, WILL BE REMOVED IN PRODUCTION"
     )
-    public ResponseObject getWeatherTest(@RequestBody String message){
+    public ResponseEntity<ResponseObject> getWeatherTest(@RequestBody String message){
         _LOGGER.info(String.format("Request to send email with message %s", message));
         return emailService.sendEmail(message);
     }

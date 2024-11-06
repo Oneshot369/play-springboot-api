@@ -23,6 +23,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -59,7 +60,7 @@ public class UserController {
     @SecurityRequirement(name="BasicAuth")
 
     @GetMapping("/getUserById")
-    public ResponseObject getUserById(
+    public ResponseEntity<ResponseObject> getUserById(
         //@Parameter(name = "id", in = ParameterIn.PATH, required = true, description = "This will be the ID of the user", example = "1")
         @RequestParam Long id, 
         Authentication auth){
@@ -75,7 +76,7 @@ public class UserController {
     @ApiResponse(responseCode = "200",description = "Success", content = { @Content(mediaType="application/json", schema = @Schema(type = "string", example = "\"JWT token\""))})
 
     @PostMapping("/login")
-    public ResponseObject attemptLogin(@RequestBody LoginAttemptModel loginAttempt){
+    public ResponseEntity<ResponseObject> attemptLogin(@RequestBody LoginAttemptModel loginAttempt){
         return userService.attemptLogin(loginAttempt);
     }
 
@@ -86,7 +87,7 @@ public class UserController {
     @ApiResponse(responseCode = "200",description = "Success", content = { @Content(mediaType="application/json", schema = @Schema(implementation = UserModel.class))})
 
     @GetMapping("/getUserByUsername")
-    public ResponseObject getUserById(@RequestParam String username, Authentication auth){
+    public ResponseEntity<ResponseObject> getUserById(@RequestParam String username, Authentication auth){
         User user = (User) auth.getPrincipal();
         return userService.getUserByName(username, user);
     }
@@ -99,7 +100,7 @@ public class UserController {
     @SecurityRequirement(name="BasicAuth")
 
     @GetMapping("/getAllUsers")
-    public ResponseObject getAllUsers(Authentication auth){
+    public ResponseEntity<ResponseObject> getAllUsers(Authentication auth){
         User user = (User) auth.getPrincipal();
         return userService.getAllUsers(user);
     }
@@ -111,7 +112,7 @@ public class UserController {
     @ApiResponse(responseCode = "200",description = "Success", content = { @Content(mediaType="application/json", schema = @Schema(type = "string", example = "Success"))})
 
     @PostMapping("/saveUser")
-    public ResponseObject saveUser(@RequestBody UserModel user){
+    public ResponseEntity<ResponseObject> saveUser(@RequestBody UserModel user){
         return userService.saveUser(user);
     }
     @Operation(
@@ -123,7 +124,7 @@ public class UserController {
     @SecurityRequirement(name="BasicAuth")
 
     @DeleteMapping("/deleteUser")
-    public ResponseObject deleteUser(@RequestParam int id) {
+    public ResponseEntity<ResponseObject> deleteUser(@RequestParam int id) {
         return JsonFormatter.makeJsonResponse(HttpStatus.NOT_IMPLEMENTED, "this is not implemented yet");
     }
 
@@ -138,7 +139,7 @@ public class UserController {
     @SecurityRequirement(name="BasicAuth")
 
     @PostMapping("/saveLocation")
-    public ResponseObject saveLocation(@RequestBody UserLocationModel userLocation){
+    public ResponseEntity<ResponseObject> saveLocation(@RequestBody UserLocationModel userLocation){
         return userService.saveLocationToUser(userLocation, userLocation.getId());
     }
 
@@ -151,7 +152,7 @@ public class UserController {
     @SecurityRequirement(name="BasicAuth")
 
     @PutMapping("/updateLocation")
-    public ResponseObject updateLocation(@RequestBody UserLocationModel locationModel) {
+    public ResponseEntity<ResponseObject> updateLocation(@RequestBody UserLocationModel locationModel) {
         return userService.updateLocation(locationModel);
     }
 
@@ -164,7 +165,7 @@ public class UserController {
     @SecurityRequirement(name="BasicAuth")
 
     @DeleteMapping("/deleteLocation")
-    public ResponseObject deleteLocation(@RequestParam int id) {
+    public ResponseEntity<ResponseObject> deleteLocation(@RequestParam int id) {
         return userService.deleteLocation(id);
     }
     
@@ -179,7 +180,7 @@ public class UserController {
     @SecurityRequirement(name="BasicAuth")
 
     @PostMapping("/saveConstraint")
-    public ResponseObject saveConstraint(@RequestBody ConstraintModel userConstraint){
+    public ResponseEntity<ResponseObject> saveConstraint(@RequestBody ConstraintModel userConstraint){
         return userService.saveConstraintToUser(userConstraint, userConstraint.getId());
     }
 
@@ -192,7 +193,7 @@ public class UserController {
     @SecurityRequirement(name="BasicAuth")
 
     @PutMapping("/updateConstraint")
-    public ResponseObject updateConstraint(@RequestBody ConstraintModel constraintModel) {
+    public ResponseEntity<ResponseObject> updateConstraint(@RequestBody ConstraintModel constraintModel) {
         return userService.updateConstraint(constraintModel);
     }
 
@@ -205,7 +206,7 @@ public class UserController {
     @SecurityRequirement(name="BasicAuth")
 
     @DeleteMapping("/deleteConstraint")
-    public ResponseObject deleteConstraint(@RequestParam int id) {
+    public ResponseEntity<ResponseObject> deleteConstraint(@RequestParam int id) {
         return userService.deleteConstraint(id);
     }
 }

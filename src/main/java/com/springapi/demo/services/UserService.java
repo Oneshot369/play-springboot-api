@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -52,7 +53,7 @@ public class UserService{
      * @param user 
      * @return
      */
-    public ResponseObject getUserById(Long id, User user) {
+    public ResponseEntity<ResponseObject> getUserById(Long id, User user) {
         if(!AuthorityUtil.hasAuthorities(user)){
             return JsonFormatter.makeJsonResponse(HttpStatus.FORBIDDEN, "This is a admin feature");
         }
@@ -79,7 +80,7 @@ public class UserService{
      * @param auth 
      * @return
      */
-    public ResponseObject getUserByName(String username, User user){
+    public ResponseEntity<ResponseObject> getUserByName(String username, User user){
         if(!AuthorityUtil.hasAuthorities(user)){
             return JsonFormatter.makeJsonResponse(HttpStatus.FORBIDDEN, "This is a admin feature");
         }
@@ -97,7 +98,7 @@ public class UserService{
      * gets all users
      * @return
      */
-    public ResponseObject getAllUsers(User user){
+    public ResponseEntity<ResponseObject> getAllUsers(User user){
         if(!AuthorityUtil.hasAuthorities(user)){
             return JsonFormatter.makeJsonResponse(HttpStatus.FORBIDDEN, "This is a admin feature");
         }
@@ -118,7 +119,7 @@ public class UserService{
      * @param id
      * @return
      */
-    public ResponseObject saveUser(UserModel model) {
+    public ResponseEntity<ResponseObject> saveUser(UserModel model) {
         UserEntity entity = new UserEntity();
         //get current date as string
         model.setLastLogin(DateUtil.getCurrentTime());
@@ -130,7 +131,7 @@ public class UserService{
 
     //-------------------------LOCATIONS----------------------------------
 
-    public ResponseObject saveLocationToUser(UserLocationModel userLocation, int userId) {
+    public ResponseEntity<ResponseObject> saveLocationToUser(UserLocationModel userLocation, int userId) {
         UserLocationEntities userLocationEntities = new UserLocationEntities();
         userLocationEntities.convertValuesModel(userLocation);
 
@@ -139,13 +140,13 @@ public class UserService{
         return JsonFormatter.makeJsonResponse(HttpStatus.OK, String.format("Location was saved for user: %d", userId));
     }
 
-    public ResponseObject updateLocation(UserLocationModel userLocation) {
+    public ResponseEntity<ResponseObject> updateLocation(UserLocationModel userLocation) {
         locationRepo.updateLocationById(userLocation.getName(), userLocation.getLat(), userLocation.getLon(), userLocation.getId());
 
         return JsonFormatter.makeJsonResponse(HttpStatus.OK, String.format("Location was Updated."));
     }
 
-    public ResponseObject deleteLocation(int locationId) {
+    public ResponseEntity<ResponseObject> deleteLocation(int locationId) {
         locationRepo.deleteLocationById(locationId);
 
         return JsonFormatter.makeJsonResponse(HttpStatus.OK, String.format("Location was deleted."));
@@ -153,7 +154,7 @@ public class UserService{
 
     //-----------------------------Constraints-----------------------------
 
-    public ResponseObject saveConstraintToUser(ConstraintModel userConstraint, int locationId) {
+    public ResponseEntity<ResponseObject> saveConstraintToUser(ConstraintModel userConstraint, int locationId) {
         ConstraintEntity constraintEntity = new ConstraintEntity();
         constraintEntity.convertValuesModel(userConstraint);
 
@@ -162,19 +163,19 @@ public class UserService{
         return JsonFormatter.makeJsonResponse(HttpStatus.OK, String.format("Constraint was saved for location: %d", locationId));
     }
 
-    public ResponseObject updateConstraint(ConstraintModel userLocation) {
+    public ResponseEntity<ResponseObject> updateConstraint(ConstraintModel userLocation) {
         constraintRepo.updateConstraintById(userLocation.getName(), userLocation.getCondition().toString(), userLocation.getVal(), userLocation.isGreaterThan(), userLocation.getId());
 
         return JsonFormatter.makeJsonResponse(HttpStatus.OK, String.format("Constraint was updated."));
     }
 
-    public ResponseObject deleteConstraint(int locationId) {
+    public ResponseEntity<ResponseObject> deleteConstraint(int locationId) {
         constraintRepo.deleteById(locationId);
 
         return JsonFormatter.makeJsonResponse(HttpStatus.OK, String.format("Constraint was deleted."));
     }
 
-    public ResponseObject attemptLogin(LoginAttemptModel loginAttempt) {
+    public ResponseEntity<ResponseObject> attemptLogin(LoginAttemptModel loginAttempt) {
         try{
             Authentication auth = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
