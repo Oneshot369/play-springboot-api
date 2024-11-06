@@ -5,13 +5,13 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.mashape.unirest.http.HttpResponse;
-  import com.mashape.unirest.http.JsonNode;
-  import com.mashape.unirest.http.Unirest;
-  import com.mashape.unirest.http.exceptions.UnirestException;
+import com.mashape.unirest.http.JsonNode;
+import com.mashape.unirest.http.Unirest;
+import com.mashape.unirest.http.exceptions.UnirestException;
 import com.springapi.demo.util.JsonFormatter;
 import com.springapi.demo.util.ResponseObject;
 
@@ -29,7 +29,7 @@ public class EmailService {
 
     private static final Logger _LOGGER = LogManager.getLogger(SpringBootApplication.class);
 
-    public ResponseObject sendEmail(String message){
+    public ResponseEntity<ResponseObject> sendEmail(String message){
         try{
             HttpResponse<JsonNode> request = Unirest.post(host + domain + "/messages")
             .basicAuth("api", key)

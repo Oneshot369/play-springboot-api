@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -49,7 +50,7 @@ public class BaseController {
     )
 
     @GetMapping("/")
-    public ResponseObject getBaseLink() {
+    public ResponseEntity<ResponseObject> getBaseLink() {
         String[] activeProfiles = env.getActiveProfiles();
         if(activeProfiles !=null)
             _LOGGER.info("in env: " + activeProfiles[0]);
@@ -64,7 +65,7 @@ public class BaseController {
     @SecurityRequirement(name="BasicAuth")
     
     @GetMapping("/auth")
-    public ResponseObject testAuth(Authentication auth) {      
+    public ResponseEntity<ResponseObject> testAuth(Authentication auth) {      
         return JsonFormatter.makeJsonResponse(HttpStatus.OK, "you must be logged in to see this");
     }
     

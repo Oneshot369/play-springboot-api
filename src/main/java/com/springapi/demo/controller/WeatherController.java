@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -51,7 +52,7 @@ public class WeatherController {
     @ApiResponse(responseCode = "200",description = "Success", content = { @Content(mediaType="application/json", schema = @Schema(implementation = CurrentWeatherModel.class))})
 
     @GetMapping("/getWeather")
-    public ResponseObject getWeather(@RequestParam Double lat, @RequestParam Double lon){
+    public ResponseEntity<ResponseObject> getWeather(@RequestParam Double lat, @RequestParam Double lon){
         _LOGGER.info(String.format("request for weather at location: %s, %s", lat, lon));
         return weatherService.getWeatherFromLatAndLon(lat, lon);
     }
@@ -63,7 +64,7 @@ public class WeatherController {
     @ApiResponse(responseCode = "200",description = "Success", content = { @Content(mediaType="application/json", array = @ArraySchema(schema = @Schema(implementation = ForecastModel.class)))})
 
     @GetMapping("/getWeatherFromName")
-    public ResponseObject getWeatherFromName(@RequestParam String locationName){
+    public ResponseEntity<ResponseObject> getWeatherFromName(@RequestParam String locationName){
         _LOGGER.info(String.format("request for weather at location: %s", locationName));
         return weatherService.getWeatherFromName(locationName);
     }
@@ -75,7 +76,7 @@ public class WeatherController {
     @ApiResponse(responseCode = "200",description = "Success", content = { @Content(mediaType="application/json", array = @ArraySchema(schema = @Schema(implementation = ForecastModel.class)))})
 
     @GetMapping("/getForecast")
-    public ResponseObject getForecast(@RequestParam Double lat, @RequestParam Double lon){
+    public ResponseEntity<ResponseObject> getForecast(@RequestParam Double lat, @RequestParam Double lon){
         _LOGGER.info(String.format("request for weather at location: %s, %s", lat, lon));
         return weatherService.getForecast(lat, lon);
     }

@@ -11,22 +11,23 @@ public class JsonFormatter {
     
     static Gson js = new Gson();
 
-    public static ResponseObject makeJsonResponse(HttpStatus status, Object value){
+    public static ResponseEntity<ResponseObject> makeJsonResponse(HttpStatus status, Object value){
         ResponseObject responseObject = new ResponseObject();
         
         responseObject.setData(value);
-        responseObject.setStatus(status.value());
         responseObject.setTime(DateUtil.getCurrentTime());
-        //ResponseEntity re = new ResponseEntity<>(status);
-        return responseObject;
+        ResponseEntity<ResponseObject> re = new ResponseEntity<>(responseObject , status);
+        
+        return re;
     }
 
-    public static ResponseObject makeJsonResponse(HttpStatusCode status, HttpClientErrorException value){
+    public static ResponseEntity<?> makeJsonResponse(HttpStatusCode status, HttpClientErrorException value){
         ResponseObject responseObject = new ResponseObject();
-
-        responseObject.setData(value.getMessage());
-        responseObject.setStatus(status.value());
+        
+        responseObject.setData(value);
         responseObject.setTime(DateUtil.getCurrentTime());
-        return responseObject;
+        ResponseEntity<ResponseObject> re = new ResponseEntity<>(responseObject , status);
+        
+        return re;
     }
 }
