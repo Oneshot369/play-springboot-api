@@ -4,11 +4,16 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.mashape.unirest.http.HttpResponse;
   import com.mashape.unirest.http.JsonNode;
   import com.mashape.unirest.http.Unirest;
   import com.mashape.unirest.http.exceptions.UnirestException;
+import com.springapi.demo.util.JsonFormatter;
+import com.springapi.demo.util.ResponseObject;
 
 @Service
 public class EmailService {
@@ -24,7 +29,7 @@ public class EmailService {
 
     private static final Logger _LOGGER = LogManager.getLogger(SpringBootApplication.class);
 
-    public String sendEmail(String message){
+    public ResponseObject sendEmail(String message){
         try{
             HttpResponse<JsonNode> request = Unirest.post(host + domain + "/messages")
             .basicAuth("api", key)
@@ -36,10 +41,10 @@ public class EmailService {
             _LOGGER.info(request.getBody());
         }
         catch(UnirestException e){
-            return "unable to send email";
+            return JsonFormatter.makeJsonResponse(HttpStatus.INTERNAL_SERVER_ERROR, "unable to send email");
         }
         
-        return "Email Sent";
+        return JsonFormatter.makeJsonResponse(HttpStatus.OK, "sent email");
     }
     
 }

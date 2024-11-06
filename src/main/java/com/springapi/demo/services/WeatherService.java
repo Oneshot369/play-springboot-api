@@ -7,6 +7,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.client.HttpClientErrorException;
@@ -15,6 +16,8 @@ import org.springframework.web.client.RestTemplate;
 import com.springapi.demo.model.weatherResponse.CurrentWeatherModel;
 import com.springapi.demo.model.weatherResponse.ForecastModel;
 import com.springapi.demo.model.weatherResponse.LocationModel;
+import com.springapi.demo.util.JsonFormatter;
+import com.springapi.demo.util.ResponseObject;
 
 @Service
 @CrossOrigin("${cors.frontend.url}")
@@ -28,7 +31,7 @@ public class WeatherService {
 
     private static final Logger _LOGGER = LogManager.getLogger(SpringBootApplication.class);
 
-    public CurrentWeatherModel getWeatherFromLatAndLon(Double lat, Double lon) throws HttpClientErrorException{
+    public ResponseObject getWeatherFromLatAndLon(Double lat, Double lon) throws HttpClientErrorException{
         _LOGGER.info(String.format("Getting weather from lat: %f, lon: %f", lat, lon));
         CurrentWeatherModel res;
         //make api call
@@ -39,13 +42,13 @@ public class WeatherService {
         }
         catch(HttpClientErrorException errorException){
             _LOGGER.warn("Error trying to get Weather", errorException);
-            throw errorException;
+            return JsonFormatter.makeJsonResponse(HttpStatus.INTERNAL_SERVER_ERROR, errorException.getMessage());
         }
        
         _LOGGER.debug("request res: ", res);
-        return res;
+        return JsonFormatter.makeJsonResponse(HttpStatus.OK, res);
     }
-    public List<LocationModel> getWeatherFromName(String locationName){
+    public ResponseObject getWeatherFromName(String locationName){
         _LOGGER.info("calling weather API2");
         //make api call
         String uri = host + String.format("geo/1.0/direct?q=%s&limit=5&appid=%s", locationName, key, "imperial");
@@ -57,13 +60,13 @@ public class WeatherService {
         }
         catch(HttpClientErrorException errorException){
             _LOGGER.warn("Error trying to get name of location", errorException);
-            throw errorException;
+            return JsonFormatter.makeJsonResponse(HttpStatus.INTERNAL_SERVER_ERROR, errorException.getMessage());
         }
         _LOGGER.debug("request res: ", res);
-        return res;
+        return JsonFormatter.makeJsonResponse(HttpStatus.OK, res);
     }
 
-    public ForecastModel getForecast(Double lat, Double lon) {
+    public ResponseObject getForecast(Double lat, Double lon) {
         _LOGGER.info(String.format("Getting Forecast from lat: %f, lon: %f", lat, lon));
         //make api call
         String uri = host + String.format("data/2.5/forecast?lat=%f&lon=%f&appid=%s&units=%s&cnt=%d", lat, lon, key, "imperial", 10);
@@ -75,20 +78,20 @@ public class WeatherService {
         }
         catch(HttpClientErrorException errorException){
             _LOGGER.warn("Error trying to get Weather", errorException);
-            throw errorException;
+            return JsonFormatter.makeJsonResponse(HttpStatus.INTERNAL_SERVER_ERROR, errorException.getMessage());
         }
        
         _LOGGER.debug("request res: ", res);
-        return res;
+        return JsonFormatter.makeJsonResponse(HttpStatus.INTERNAL_SERVER_ERROR, res);
     }
-    public String getForecastFromLatAndLon(Double lat, Double lon) {
-        _LOGGER.info("calling weather API: get forecast weather");
-        //make api call
-        String uri = host + String.format("data/2.5/forecast?lat=%f&lon=%f&appid=%s&units=%s", lat, lon, key, "imperial");
-        RestTemplate restTemp = new RestTemplate();
-        String res = restTemp.getForObject(uri, String.class);
-        _LOGGER.debug("request res: ", res);
-        return res;
-    }
+    // public String getForecastFromLatAndLon(Double lat, Double lon) {
+    //     _LOGGER.info("calling weather API: get forecast weather");
+    //     //make api call
+    //     String uri = host + String.format("data/2.5/forecast?lat=%f&lon=%f&appid=%s&units=%s", lat, lon, key, "imperial");
+    //     RestTemplate restTemp = new RestTemplate();
+    //     String res = restTemp.getForObject(uri, String.class);
+    //     _LOGGER.debug("request res: ", res);
+    //     return res;
+    // }
     
 }

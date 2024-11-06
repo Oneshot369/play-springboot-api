@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.springapi.demo.services.EmailService;
 import com.springapi.demo.util.ResponseObject;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -21,8 +22,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RestController
 @RequestMapping("/api/v1/email")
 
-// Swagger Annotations - These are only for documentation
-@Tag(name = "Default Controller")
+// Swagger Annotations - These are only for documentation no function is added in these
+@Tag(name = "Email Endpoints (TESTING PURPOSES: these endpoints are for testing the email, this will not be in the final product)")
 @ApiResponses({
     @ApiResponse(responseCode = "200",description = "Success", content = { @Content(mediaType="application/json", schema = @Schema(implementation = ResponseObject.class))}),
     @ApiResponse(responseCode = "500", description = "Internal Error", content = { @Content(mediaType="application/json", schema = @Schema(implementation = ResponseObject.class))})
@@ -35,7 +36,11 @@ public class EmailController {
     private static final Logger _LOGGER = LogManager.getLogger(SpringBootApplication.class);
 
     @GetMapping("/sendEmail")
-    public String getWeatherTest(@RequestBody String message){
+    @Operation(
+        description = "Takes the message and sends an email to your account with that message",
+        summary = "Sends a email - FOR TESTING ONLY, WILL BE REMOVED IN PRODUCTION"
+    )
+    public ResponseObject getWeatherTest(@RequestBody String message){
         _LOGGER.info(String.format("Request to send email with message %s", message));
         return emailService.sendEmail(message);
     }

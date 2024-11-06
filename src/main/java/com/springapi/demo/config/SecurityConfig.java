@@ -22,7 +22,7 @@ public class SecurityConfig {
 
     public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter) {
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
-    }
+    }//
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -30,7 +30,7 @@ public class SecurityConfig {
             .csrf(AbstractHttpConfigurer::disable)
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
-                .requestMatchers( "/api/v1/user/login", "/api/v1/user/saveUser", "/api/v1/weather/**", "/api/v1/","/swagger-resources/", "/swagger-ui/**","/v3/api-docs/**").permitAll()
+                .requestMatchers( "/api/v1/user/login", "/api/v1/user/saveUser", "/api/v1/weather/**", "/api/v1/", "/swagger-ui/**","/swagger-resources/", "/v3/api-docs/**").permitAll()
                 .requestMatchers("/api/v1/auth", "/api/v1/user/**").authenticated()
                 .anyRequest().authenticated())
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

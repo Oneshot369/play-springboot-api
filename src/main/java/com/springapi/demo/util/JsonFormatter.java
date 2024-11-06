@@ -10,21 +10,21 @@ public class JsonFormatter {
     
     static Gson js = new Gson();
 
-    public static String makeJsonResponse(HttpStatus status, Object value){
+    public static ResponseObject makeJsonResponse(HttpStatus status, Object value){
         ResponseObject responseObject = new ResponseObject();
         
         responseObject.setData(value);
         responseObject.setStatus(status.value());
         responseObject.setTime(DateUtil.getCurrentTime());
-        return js.toJson(responseObject);
+        return responseObject;
     }
 
-    public static String makeJsonResponse(HttpStatusCode status, HttpClientErrorException value){
+    public static ResponseObject makeJsonResponse(HttpStatusCode status, HttpClientErrorException value){
         ResponseObject responseObject = new ResponseObject();
 
         responseObject.setData(value.getMessage());
         responseObject.setStatus(status.value());
         responseObject.setTime(DateUtil.getCurrentTime());
-        return js.toJson(responseObject);
+        return responseObject;
     }
 }
