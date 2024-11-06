@@ -10,7 +10,6 @@ import com.springapi.demo.model.weatherResponse.submodels.SysModel;
 import com.springapi.demo.model.weatherResponse.submodels.WeatherModel;
 import com.springapi.demo.model.weatherResponse.submodels.WindModel;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

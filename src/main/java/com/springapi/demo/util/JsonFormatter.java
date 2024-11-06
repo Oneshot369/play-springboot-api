@@ -2,6 +2,7 @@ package com.springapi.demo.util;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.HttpClientErrorException;
 
 import com.google.gson.Gson;
@@ -16,6 +17,7 @@ public class JsonFormatter {
         responseObject.setData(value);
         responseObject.setStatus(status.value());
         responseObject.setTime(DateUtil.getCurrentTime());
+        //ResponseEntity re = new ResponseEntity<>(status);
         return responseObject;
     }
 

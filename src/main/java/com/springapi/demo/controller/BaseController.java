@@ -38,7 +38,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
     @ApiResponse(responseCode = "403", description = "Forbidden", content = { @Content(mediaType="application/json", schema = @Schema(implementation = ResponseObject.class))}),
     @ApiResponse(responseCode = "404", description = "Not found", content = { @Content(mediaType="application/json", schema = @Schema(implementation = ResponseObject.class))})
 })
-@SecurityScheme(type = SecuritySchemeType.HTTP, name = "BasicAuth", scheme = "bearer", bearerFormat= "JWT")
 public class BaseController {
 
     private static final Logger _LOGGER = LogManager.getLogger(SpringBootApplication.class);
