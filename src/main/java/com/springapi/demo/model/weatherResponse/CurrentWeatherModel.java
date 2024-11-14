@@ -24,7 +24,7 @@ public class CurrentWeatherModel {
     private MainWeatherModel main;
     private int visibility;
     private WindModel wind;
-    private RainModel rain;
+    private RainModel rain; 
     private CloudsModel clouds;
     private long dt;
     private SysModel sys;

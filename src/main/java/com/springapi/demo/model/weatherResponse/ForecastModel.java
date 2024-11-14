@@ -13,9 +13,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ForecastModel {
-    public String cod;
-    public int message;
-    public int cnt;
-    public List<ForecastItemModel> list;
-    public CityModel city;
+    private String cod;
+    private int message;
+    private int cnt;
+    private List<ForecastItemModel> list;
+    private CityModel city;
 }

@@ -11,13 +11,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ForecastItemModel {
-    public long dt;
-    public MainWeatherModel main;
-    public List<WeatherModel> weather;
-    public CloudsModel clouds;
-    public WindModel wind;
-    public int visibility;
-    public double pop;
-    public SysModel sys;
-    public String dt_txt;
+    private long dt;
+    private MainWeatherModel main;
+    private List<WeatherModel> weather;
+    private CloudsModel clouds;
+    private WindModel wind;
+    private int visibility;
+    private double pop;
+    private SysModel sys;
+    private String dt_txt;
 }
