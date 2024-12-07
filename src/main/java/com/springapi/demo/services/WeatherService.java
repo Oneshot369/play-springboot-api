@@ -30,6 +30,8 @@ public class WeatherService {
     @Value("${weather.api.host}")
     private String host;
 
+    RestTemplate restTemp = new RestTemplate();
+
     private static final Logger _LOGGER = LogManager.getLogger(SpringBootApplication.class);
 
     public ResponseEntity<ResponseObject> getWeatherFromLatAndLon(Double lat, Double lon) throws HttpClientErrorException{
@@ -37,7 +39,7 @@ public class WeatherService {
         CurrentWeatherModel res;
         //make api call
         String uri = host + String.format("data/2.5/weather?lat=%f&lon=%f&appid=%s&units=%s", lat, lon, key, "imperial");
-        RestTemplate restTemp = new RestTemplate();
+        //RestTemplate restTemp = new RestTemplate();
         try{
             res = restTemp.getForObject(uri, CurrentWeatherModel.class);
         }
@@ -53,7 +55,7 @@ public class WeatherService {
         _LOGGER.info("calling weather API2");
         //make api call
         String uri = host + String.format("geo/1.0/direct?q=%s&limit=5&appid=%s", locationName, key, "imperial");
-        RestTemplate restTemp = new RestTemplate();
+        //RestTemplate restTemp = new RestTemplate();
         List<LocationModel> res = new ArrayList<>();
         try{
             LocationModel[] arrayRes = restTemp.getForObject(uri, LocationModel[].class);
@@ -71,7 +73,7 @@ public class WeatherService {
         _LOGGER.info(String.format("Getting Forecast from lat: %f, lon: %f", lat, lon));
         //make api call
         String uri = host + String.format("data/2.5/forecast?lat=%f&lon=%f&appid=%s&units=%s&cnt=%d", lat, lon, key, "imperial", 10);
-        RestTemplate restTemp = new RestTemplate();
+        //RestTemplate restTemp = new RestTemplate();
         
         ForecastModel res;
         try{

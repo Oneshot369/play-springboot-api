@@ -25,7 +25,10 @@ public class UserSecurityService implements UserDetailsService{
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         
         List<UserEntity> users = userRepo.findByUsername(username);
-        if(users.isEmpty() || users.size() > 1){
+        if(users.isEmpty()){
+            throw new UsernameNotFoundException("User not found with username: " + username);
+        }
+        if(users.size() > 1){
             return null;
         }
         List<GrantedAuthority> authorities = new ArrayList<>();
