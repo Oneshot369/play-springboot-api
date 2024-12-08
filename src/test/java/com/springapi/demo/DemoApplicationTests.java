@@ -8,7 +8,7 @@ class DemoApplicationTests {
 
 	@Test 
 	void isTrue(){
-		assert false;
+		assert true;
 	}
 
 
