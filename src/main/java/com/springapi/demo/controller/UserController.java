@@ -61,7 +61,6 @@ public class UserController {
 
     @GetMapping("/getUserById")
     public ResponseEntity<ResponseObject> getUserById(
-        //@Parameter(name = "id", in = ParameterIn.PATH, required = true, description = "This will be the ID of the user", example = "1")
         @RequestParam Long id, 
         Authentication auth){
 

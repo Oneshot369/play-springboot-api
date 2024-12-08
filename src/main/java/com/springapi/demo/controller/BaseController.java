@@ -55,7 +55,7 @@ public class BaseController {
         if(activeProfiles !=null)
             _LOGGER.info("in env: " + activeProfiles[0]);
         
-        return JsonFormatter.makeJsonResponse(HttpStatus.OK, "Welcome to my test application");
+        return JsonFormatter.makeJsonResponse(HttpStatus.OK, "Welcome to my test application I just updated :)");
     }
 
     @Operation(
