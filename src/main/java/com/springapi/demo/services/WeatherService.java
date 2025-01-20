@@ -54,7 +54,7 @@ public class WeatherService {
     public ResponseEntity<ResponseObject> getWeatherFromName(String locationName){
         _LOGGER.info("calling weather API2");
         //make api call
-        String uri = host + String.format("geo/1.0/direct?q=%s&limit=5&appid=%s", locationName, key, "imperial");
+        String uri = host + String.format("geo/1.0/direct?q=%s&limit=10&appid=%s", locationName, key, "imperial");
         //RestTemplate restTemp = new RestTemplate();
         List<LocationModel> res = new ArrayList<>();
         try{
@@ -66,6 +66,7 @@ public class WeatherService {
             return JsonFormatter.makeJsonResponse(HttpStatus.INTERNAL_SERVER_ERROR, errorException.getMessage());
         }
         _LOGGER.debug("request res: ", res);
+        _LOGGER.info("length: " + res.size());
         return JsonFormatter.makeJsonResponse(HttpStatus.OK, res);
     }
 
