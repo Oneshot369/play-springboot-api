@@ -37,7 +37,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/api/v1/weather")
-@CrossOrigin(origins = "${cors.frontend.url}")
+//@CrossOrigin(origins = "${cors.frontend.url}")
 public class WeatherController {
 
     @Autowired

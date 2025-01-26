@@ -125,8 +125,26 @@ public class UserService{
         model.setLastLogin(DateUtil.getCurrentTime());
         entity.convertValuesModel(model);
         entity.setPassword(passwordEncoder.encode(entity.getPassword()));
-        UserEntity userID = userRepo.save(entity);
+        UserEntity userID;
+        try{
+            userID = userRepo.save(entity);
+        }
+        catch(Exception e){
+            return JsonFormatter.makeJsonResponse(HttpStatus.INTERNAL_SERVER_ERROR, String.format("Internal Error occurred: ", e.getMessage()));
+        }
+        
         return JsonFormatter.makeJsonResponse(HttpStatus.OK, String.format("User saved with Id: %s", userID.getId()));
+    }
+
+    public ResponseEntity<ResponseObject> deleteUser(Long id) {
+        try{
+            userRepo.deleteById(id);
+        }
+        catch(Exception e){
+            return JsonFormatter.makeJsonResponse(HttpStatus.INTERNAL_SERVER_ERROR, String.format("Internal Error occurred: ", e.getMessage()));
+        }
+        
+        return JsonFormatter.makeJsonResponse(HttpStatus.OK, String.format("User deleted with Id: %s", id));
     }
 
     //-------------------------LOCATIONS----------------------------------
