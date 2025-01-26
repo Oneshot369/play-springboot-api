@@ -124,7 +124,7 @@ public class UserController {
 
     @DeleteMapping("/deleteUser")
     public ResponseEntity<ResponseObject> deleteUser(@RequestParam int id) {
-        return JsonFormatter.makeJsonResponse(HttpStatus.NOT_IMPLEMENTED, "this is not implemented yet");
+        return userService.deleteUser(Long.valueOf(id));
     }
 
 
