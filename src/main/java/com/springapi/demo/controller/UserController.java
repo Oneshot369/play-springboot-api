@@ -169,8 +169,8 @@ public class UserController {
     }
     @Tag(name = "Locations")
     @Operation(
-        description = "The user needs have the JWT token in the request or this will fail as the token is how we identify what account to save the location to. The constraints will be ignored, this only for updating a location.",
-        summary = "Saves a location to a users account" 
+        description = "The user needs have the JWT token in the request or this will fail as the token is how we identify what account we are getting the locations for.",
+        summary = "Gets all locations from a users account" 
     )
     @ApiResponse(responseCode = "200",description = "Success", content = { @Content(mediaType="application/json", schema = @Schema(type = "string", example = "Success"))})
     @SecurityRequirement(name="BasicAuth")
