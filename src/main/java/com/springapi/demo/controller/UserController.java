@@ -167,6 +167,19 @@ public class UserController {
     public ResponseEntity<ResponseObject> deleteLocation(@RequestParam int id) {
         return userService.deleteLocation(id);
     }
+    @Tag(name = "Locations")
+    @Operation(
+        description = "The user needs have the JWT token in the request or this will fail as the token is how we identify what account to save the location to. The constraints will be ignored, this only for updating a location.",
+        summary = "Saves a location to a users account" 
+    )
+    @ApiResponse(responseCode = "200",description = "Success", content = { @Content(mediaType="application/json", schema = @Schema(type = "string", example = "Success"))})
+    @SecurityRequirement(name="BasicAuth")
+
+    @GetMapping("/getLocation")
+    public ResponseEntity<ResponseObject> getLocations(Authentication auth){
+        User user = (User) auth.getPrincipal();
+        return userService.getAllLocationsForUser(user);
+    }
     
     //--------------------------Constraints------------------------
 

@@ -208,5 +208,45 @@ public class UserService{
             return JsonFormatter.makeJsonResponse(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
+
+    public ResponseEntity<ResponseObject> getAllLocationsForUser(User user) {
+        UserModel userModel = getUserByIdNoAuth(user.getUsername());
+        if(userModel == null){
+            JsonFormatter.makeJsonResponse(HttpStatus.INTERNAL_SERVER_ERROR, "An error occurred for get location request for user: " + user.getUsername());
+        }
+        return JsonFormatter.makeJsonResponse(HttpStatus.OK, userModel);
+    }
+
+    /**
+     * gets one user by ID
+     * if none is found then return new UserModel(-1, null, null, -1)
+     * @param id
+     * @param user 
+     * @return
+     */
+    private UserModel getUserByIdNoAuth(String username) {
+        List<UserEntity> userEntityList = userRepo.findByUsername(username);
+        //check if we found one
+        if(userEntityList.isEmpty()){
+            return null;
+        }
+        //we can use get(0) because we checked if it was not empty then the usernames in the DB cannot be duplicates.
+        UserEntity ourUserEntity = userRepo.getById(userEntityList.get(0).getId());
+        //check the response
+        try{
+            ourUserEntity.getUsername();
+        }
+        catch(Exception e){
+            return null;
+        }
+
+        //convert from entity to user
+        UserModel userModel = new UserModel();
+
+        userModel.convertValuesModel(ourUserEntity);
+
+        //then only return the locations
+        return userModel;
+    }
     
 }

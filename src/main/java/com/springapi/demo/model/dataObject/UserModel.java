@@ -20,7 +20,7 @@ public class UserModel {
     private String username;
     private String password;
     private int age;
-    private int userId;
+    // private int userId;
     private String lastLogin;
     private List<UserLocationModel> locations;
 
