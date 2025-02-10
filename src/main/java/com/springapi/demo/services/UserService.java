@@ -149,13 +149,14 @@ public class UserService{
 
     //-------------------------LOCATIONS----------------------------------
 
-    public ResponseEntity<ResponseObject> saveLocationToUser(UserLocationModel userLocation, int userId) {
+    public ResponseEntity<ResponseObject> saveLocationToUser(UserLocationModel userLocation, User user) {
+        UserModel userID = getUserByUsernameNoAuth(user.getUsername());
         UserLocationEntities userLocationEntities = new UserLocationEntities();
         userLocationEntities.convertValuesModel(userLocation);
 
-        locationRepo.saveLocationToUser(userLocation.getLat(), userLocation.getLon(), userLocation.getName(), userId);
+        locationRepo.saveLocationToUser(userLocation.getLat(), userLocation.getLon(), userLocation.getName(), userID.getId().intValue());
 
-        return JsonFormatter.makeJsonResponse(HttpStatus.OK, String.format("Location was saved for user: %d", userId));
+        return JsonFormatter.makeJsonResponse(HttpStatus.OK, String.format("Location was saved for user: %d", userID.getId()));
     }
 
     public ResponseEntity<ResponseObject> updateLocation(UserLocationModel userLocation) {
@@ -210,7 +211,7 @@ public class UserService{
     }
 
     public ResponseEntity<ResponseObject> getAllLocationsForUser(User user) {
-        UserModel userModel = getUserByIdNoAuth(user.getUsername());
+        UserModel userModel = getUserByUsernameNoAuth(user.getUsername());
         if(userModel == null){
             JsonFormatter.makeJsonResponse(HttpStatus.INTERNAL_SERVER_ERROR, "An error occurred for get location request for user: " + user.getUsername());
         }
@@ -224,14 +225,14 @@ public class UserService{
      * @param user 
      * @return
      */
-    private UserModel getUserByIdNoAuth(String username) {
+    private UserModel getUserByUsernameNoAuth(String username) {
         List<UserEntity> userEntityList = userRepo.findByUsername(username);
         //check if we found one
         if(userEntityList.isEmpty()){
             return null;
         }
         //we can use get(0) because we checked if it was not empty then the usernames in the DB cannot be duplicates.
-        UserEntity ourUserEntity = userRepo.getById(userEntityList.get(0).getId());
+        UserEntity ourUserEntity = userEntityList.get(0);
         //check the response
         try{
             ourUserEntity.getUsername();

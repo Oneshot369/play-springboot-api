@@ -138,8 +138,9 @@ public class UserController {
     @SecurityRequirement(name="BasicAuth")
 
     @PostMapping("/saveLocation")
-    public ResponseEntity<ResponseObject> saveLocation(@RequestBody UserLocationModel userLocation){
-        return userService.saveLocationToUser(userLocation, userLocation.getId());
+    public ResponseEntity<ResponseObject> saveLocation(Authentication auth, @RequestBody UserLocationModel userLocation){
+        User user = (User) auth.getPrincipal();
+        return userService.saveLocationToUser(userLocation, user);
     }
 
     @Tag(name = "Locations")

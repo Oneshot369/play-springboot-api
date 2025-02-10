@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -28,6 +29,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -203,10 +205,23 @@ void testSaveLocationToUser_ValidLocation() {
     mockLocation.setName("Home");
     mockLocation.setLat(40.7128);
     mockLocation.setLon(-74.0060);
+	UserEntity ue = new UserEntity();
+	ue.setId(1L);
+	ue.setUsername("thing");
 
     //doNothing().when(locationRepo).saveLocationToUser(mockLocation.getLat(), mockLocation.getLon(), mockLocation.getName(), 1);
+	when(userRepo.findByUsername(anyString())).thenReturn(List.of(ue));
+	GrantedAuthority ga = new GrantedAuthority() {
 
-    ResponseEntity<ResponseObject> response = userService.saveLocationToUser(mockLocation, 1);
+		@Override
+		public String getAuthority() {
+			// TODO Auto-generated method stub
+			return "none";
+		}
+		
+	};
+	User user = new User("u", "p", List.of(ga));
+    ResponseEntity<ResponseObject> response = userService.saveLocationToUser(mockLocation, user);
 
     assertEquals(HttpStatus.OK, response.getStatusCode());
     assertEquals(response.getBody().getData(), ("Location was saved for user: 1"));
