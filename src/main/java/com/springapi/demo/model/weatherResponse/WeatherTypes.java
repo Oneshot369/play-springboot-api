@@ -8,6 +8,5 @@ public enum WeatherTypes {
     VISIBILITY,
     WIND_SPEED,
     WIND_DEG,
-    WIND_GUST,
-    
+    WIND_GUST
 }
