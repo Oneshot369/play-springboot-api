@@ -193,7 +193,7 @@ public class UserController {
     @SecurityRequirement(name="BasicAuth")
 
     @PostMapping("/saveConstraint")
-    public ResponseEntity<ResponseObject> saveConstraint(@RequestBody ConstraintModel userConstraint){
+    public ResponseEntity<ResponseObject> saveConstraint(Authentication auth, @RequestBody ConstraintModel userConstraint){
         return userService.saveConstraintToUser(userConstraint, userConstraint.getId());
     }
 
