@@ -51,6 +51,23 @@ public class WeatherService {
         _LOGGER.debug("request res: ", res);
         return JsonFormatter.makeJsonResponse(HttpStatus.OK, res);
     }
+    public CurrentWeatherModel getWeatherFromLatAndLonForEmail(Double lat, Double lon) throws HttpClientErrorException{
+        _LOGGER.info(String.format("Getting weather from lat: %f, lon: %f", lat, lon));
+        CurrentWeatherModel res;
+        //make api call
+        String uri = host + String.format("data/2.5/weather?lat=%f&lon=%f&appid=%s&units=%s", lat, lon, key, "imperial");
+        //RestTemplate restTemp = new RestTemplate();
+        try{
+            res = restTemp.getForObject(uri, CurrentWeatherModel.class);
+        }
+        catch(HttpClientErrorException errorException){
+            _LOGGER.warn("Error trying to get Weather", errorException);
+            return null;
+        }
+       
+        _LOGGER.debug("request res: ", res);
+        return res;
+    }
     public ResponseEntity<ResponseObject> getWeatherFromName(String locationName){
         _LOGGER.info("calling weather API2");
         //make api call

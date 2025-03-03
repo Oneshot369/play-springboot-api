@@ -23,7 +23,7 @@ public class EmailScheduler {
         _LOGGER.info("Scheduled email");
         //currently disabled to save calls
         //uncomment to send calls
-        //emailService.sendEmail(String.format("test at %s", DateUtil.getCurrentTime()));
+        //emailService.sendEmailsToUsers();
     }
 
 }
