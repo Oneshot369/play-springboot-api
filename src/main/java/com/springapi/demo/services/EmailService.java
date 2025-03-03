@@ -22,8 +22,7 @@ import com.springapi.demo.model.weatherResponse.CurrentWeatherModel;
 import com.springapi.demo.model.weatherResponse.LocationModel;
 import com.springapi.demo.util.JsonFormatter;
 import com.springapi.demo.util.ResponseObject;
-import javax.mail.*;
-import javax.mail.internet.*;
+
 
 @Service
 public class EmailService {
