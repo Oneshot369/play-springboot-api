@@ -113,6 +113,15 @@ public class UserService{
         return JsonFormatter.makeJsonResponse(HttpStatus.OK, userEntityList);
     }
 
+    public List<UserModel> getAllUsersForEmail(){
+        List<UserEntity> userEntityList = userRepo.findAll();
+        List<UserModel> userModels = new ArrayList<>();
+        for(UserEntity e : userEntityList){
+            userModels.add(new UserModel().convertValuesModel(e));
+        }
+        return userModels;
+    }
+
      /**
      * gets one user by ID
      * if none is found then return new UserModel(-1, null, null, -1)

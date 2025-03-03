@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.springapi.demo.services.EmailService;
+import com.springapi.demo.util.JsonFormatter;
 import com.springapi.demo.util.ResponseObject;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -43,6 +45,7 @@ public class EmailController {
     )
     public ResponseEntity<ResponseObject> getWeatherTest(@RequestBody String message){
         _LOGGER.info(String.format("Request to send email with message %s", message));
-        return emailService.sendEmail(message);
+        emailService.sendEmailsToUsers();
+        return JsonFormatter.makeJsonResponse(HttpStatus.OK, "Checked users accounts");
     }
 }
