@@ -23,7 +23,7 @@ public class EmailScheduler {
         //currently disabled to save calls as we have a limit
 
         //uncomment this line to send calls
-        emailService.sendEmailsToUsers();
+        //emailService.sendEmailsToUsers();
     }
 
 }
