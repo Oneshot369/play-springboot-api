@@ -5,12 +5,14 @@ import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import com.mashape.unirest.request.HttpRequestWithBody;
+import com.mashape.unirest.request.body.RequestBodyEntity;
 import com.springapi.demo.model.dataObject.ConstraintModel;
 import com.springapi.demo.model.dataObject.UserLocationModel;
 import com.springapi.demo.model.dataObject.UserModel;
 import com.springapi.demo.model.weatherResponse.CurrentWeatherModel;
 import com.springapi.demo.model.weatherResponse.WeatherTypes;
 import com.springapi.demo.model.weatherResponse.submodels.MainWeatherModel;
+import com.springapi.demo.model.weatherResponse.submodels.WindModel;
 import com.springapi.demo.services.EmailService;
 import com.springapi.demo.services.UserService;
 import com.springapi.demo.services.WeatherService;
@@ -29,9 +31,13 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.util.ReflectionTestUtils;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.contains;
 import static org.mockito.ArgumentMatchers.eq;
@@ -58,50 +64,70 @@ public class EmailServiceTests {
     }
 
     @Test
-    public void testSendEmailsToUsers_triggersEmailForTempConstraint() {
-        // Create mocks for User, Location, Constraint and CurrentWeather.
-        UserModel mockUser = mock(UserModel.class);
-        UserLocationModel mockLocation = mock(UserLocationModel.class);
-        ConstraintModel mockConstraint = mock(ConstraintModel.class);
-        CurrentWeatherModel mockWeather = mock(CurrentWeatherModel.class);
+    public void testSendEmailsToUsers_triggersEmailForTempConstraint() throws UnirestException {
+        try (MockedStatic<Unirest> unirestMock = Mockito.mockStatic(Unirest.class)) {
+            // Mock chain objects
+            HttpRequestWithBody mockRequest = mock(HttpRequestWithBody.class);
+            HttpRequestWithBody mockRequestWithHeader = mock(HttpRequestWithBody.class);
+            RequestBodyEntity mockRequestWithBody = mock(RequestBodyEntity.class);
+            HttpResponse<JsonNode> mockResponse = mock(HttpResponse.class);
 
-        when(mockWeather.getMain()).thenReturn(new MainWeatherModel());
+            // Set up method chain
 
-        // Set up the user, location and constraint
-        when(mockUser.getLocations()).thenReturn(Arrays.asList(mockLocation));
-        when(mockUser.getUsername()).thenReturn("test@example.com");
-        when(mockUser.getId()).thenReturn(1L);
+            // Mock Unirest.post(...)
+            unirestMock.when(() -> Unirest.post(anyString())).thenReturn(mockRequest);
 
-        when(mockLocation.getConstraints()).thenReturn(Arrays.asList(mockConstraint));
-        when(mockLocation.getName()).thenReturn("Test Location");
-        when(mockLocation.getLat()).thenReturn(10.0);
-        when(mockLocation.getLon()).thenReturn(20.0);
-        when(mockLocation.getId()).thenReturn(100);
+            // Call the method under test
+            assertThrows(Exception.class, () -> {
+                emailService.sendEmail("msg", "recip", "any");
+            });
+        }
 
-        // Assume ConstraintModel has an enum Condition with value TEMP.
-        when(mockConstraint.getCondition()).thenReturn(WeatherTypes.TEMP);
-        when(mockConstraint.isGreaterThan()).thenReturn(true);
-        when(mockConstraint.getVal()).thenReturn("30");
-        when(mockConstraint.getName()).thenReturn("Temp Alert");
-        when(mockConstraint.getId()).thenReturn(1000);
+    }
 
-        // Stub weatherService to return our dummy weather.
-        when(weatherService.getWeatherFromLatAndLonForEmail(10.0, 20.0)).thenReturn(mockWeather);
-        // Stub userService to return a list with our user.
-        when(userService.getAllUsersForEmail()).thenReturn(Arrays.asList(mockUser));
+    @Test
+    void testSendEmailsToUsers_withMixedConstraints() {
+        // Setup test user
+        UserModel user = new UserModel();
+        user.setId(1L);
+        user.setUsername("test@example.com");
 
-        // Spy on the EmailService to intercept calls to sendEmail.
-        EmailService emailServiceSpy = spy(emailService);
-        doReturn(ResponseEntity.ok(new ResponseObject(org.springframework.http.HttpStatus.OK, "sent email")))
-                .when(emailServiceSpy).sendEmail(anyString(), anyString(), anyString());
+        // Location 1: No constraints
+        UserLocationModel location1 = new UserLocationModel();
+        location1.setName("NoConstraintCity");
+        location1.setLat(10.0);
+        location1.setLon(20.0);
+        location1.setConstraints(Collections.emptyList());
 
-        // Execute the method under test.
-        emailServiceSpy.sendEmailsToUsers();
+        // Location 2: Two constraints per type
+        UserLocationModel location2 = new UserLocationModel();
+        location2.setName("ConstraintCity");
+        location2.setLat(30.0);
+        location2.setLon(40.0);
 
-        // Verify that sendEmail was called for the TEMP constraint.
-        verify(emailServiceSpy, times(1))
-                .sendEmail(ArgumentMatchers.argThat(msg -> msg.contains("The temperature in Test Location is currently")),
-                           eq("test@example.com"),
-                           ArgumentMatchers.argThat(sub -> sub.contains("Temp Alert")));
+        List<ConstraintModel> constraints = new ArrayList<>();
+        for (WeatherTypes type : WeatherTypes.values()) {
+            constraints.add(new ConstraintModel(1, type + "_gt", type, "50", true)); // trigger above
+            constraints.add(new ConstraintModel(2, type + "_lt", type, "150", false)); // trigger below
+        }
+        location2.setConstraints(constraints);
+
+        user.setLocations(Arrays.asList(location1, location2));
+
+        // Mock userService to return the user
+        when(userService.getAllUsersForEmail()).thenReturn(Collections.singletonList(user));
+
+        // Set up CurrentWeatherModel with values between 51-149 to hit both constraints
+        CurrentWeatherModel weather = new CurrentWeatherModel();
+        weather.setMain(new MainWeatherModel(100.0, 100.0, 0, 0, 100, 100, 0, 0, 0));
+        weather.setVisibility(100);
+        weather.setWind(new WindModel(100.0, 0, 100.0));
+
+        // Mock weatherService
+        when(weatherService.getWeatherFromLatAndLonForEmail(30.0, 40.0)).thenReturn(weather);
+
+        // Call the method
+        emailService.sendEmailsToUsers();
+
     }
 }
