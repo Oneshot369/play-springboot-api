@@ -1,3 +1,14 @@
+
+/*
+ * USING CHATGPT 
+ * 
+ * I used Open AI's ChatGPT to generate these tests for my project
+ * 
+ * Model: GPT-4o
+ * 
+ * https://chatgpt.com/
+ */
+
 package com.springapi.demo;
 
 import org.junit.jupiter.api.BeforeEach;

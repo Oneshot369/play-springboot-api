@@ -1,20 +1,24 @@
+
+/*
+ * USING CHATGPT 
+ * 
+ * I used Open AI's ChatGPT to generate these tests for my project
+ * 
+ * Model: GPT-4o
+ * 
+ * https://chatgpt.com/
+ */
+
 package com.springapi.demo;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.lenient;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.mockito.ArgumentMatchers.any;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -93,44 +97,6 @@ class WeatherServiceTests {
 	}
 
 	@Test
-	void testGetWeatherFromName_Success() {
-		String locationName = "New York";
-		String uri = host + String.format("geo/1.0/direct?q=%s&limit=5&appid=%s", locationName, key);
-		Map<String, String> s = new HashMap<String, String>();
-		s.put("thing", "here");
-		LocationModel[] mockResponseArray = {
-				new LocationModel("thing",s , 11.11, 12.12, "CO", "Co"),
-				new LocationModel("thing",s , 11.11, 12.12, "CO", "Co")
-		};
-		List<Object> l = new ArrayList<>();
-
-		//lenient().when(restTemplate.getForObject(eq(uri), eq(LocationModel[].class))).thenReturn(mockResponseArray);
-		
-
-		//ResponseEntity<ResponseObject> response = weatherService.getWeatherFromName(locationName);
-
-		// assertEquals(HttpStatus.OK, response.getStatusCode());
-		// assertNotNull(response.getBody());
-		// assertEquals(List.of(mockResponseArray), response.getBody().getData());
-		// verify(restTemplate, times(1)).getForObject(uri, LocationModel[].class);
-	}
-
-	@Test
-	void testGetWeatherFromName_Failure() {
-		String locationName = "InvalidCity";
-		String uri = host + String.format("geo/1.0/direct?q=%s&limit=5&appid=%s", locationName, key);
-
-		// when(restTemplate.getForObject(anyString(), LocationModel[].class))
-		// 		.thenThrow(new HttpClientErrorException(HttpStatus.INTERNAL_SERVER_ERROR, "Error fetching location"));
-
-		// ResponseEntity<ResponseObject> response = weatherService.getWeatherFromName(locationName);
-
-		// assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
-		// assertEquals(response.getBody().getData(), ("500 Error fetching location"));
-		// verify(restTemplate, times(1)).getForObject(uri, LocationModel[].class);
-	}
-
-	@Test
 	void testGetForecast_Success() {
 		double lat = 40.7128;
 		double lon = -74.0060;
@@ -168,5 +134,67 @@ class WeatherServiceTests {
 		assertEquals(response.getBody().getData(), ("500 Error fetching forecast"));
 		verify(restTemplate, times(1)).getForObject(uri, ForecastModel.class);
 	}
+
+	@Test
+	void testGetWeatherFromLatAndLonForEmail_success() {
+		Double lat = 37.7749;
+		Double lon = -122.4194;
+		CurrentWeatherModel mockResponse = new CurrentWeatherModel();
+
+		String expectedUri = host + String.format(
+				"data/2.5/weather?lat=%f&lon=%f&appid=%s&units=%s", lat, lon, key, "imperial");
+
+		when(restTemplate.getForObject(expectedUri, CurrentWeatherModel.class)).thenReturn(mockResponse);
+
+		CurrentWeatherModel result = weatherService.getWeatherFromLatAndLonForEmail(lat, lon);
+
+		assertNotNull(result);
+		assertEquals(mockResponse, result);
+	}
+	@Test
+void testGetWeatherFromLatAndLonForEmail_exceptionReturnsNull() {
+    Double lat = 37.7749;
+    Double lon = -122.4194;
+
+    String expectedUri = host + String.format(
+            "data/2.5/weather?lat=%f&lon=%f&appid=%s&units=%s", lat, lon, key, "imperial");
+
+    when(restTemplate.getForObject(expectedUri, CurrentWeatherModel.class))
+        .thenThrow(new HttpClientErrorException(HttpStatus.BAD_REQUEST));
+
+    CurrentWeatherModel result = weatherService.getWeatherFromLatAndLonForEmail(lat, lon);
+
+    assertNull(result);
+}
+@Test
+void testGetWeatherFromName_success() {
+    String cityName = "New York";
+    LocationModel[] mockArray = { new LocationModel(), new LocationModel() };
+
+    String expectedUri = host + String.format("geo/1.0/direct?q=%s&limit=10&appid=%s", cityName, key, "imperial");
+
+    when(restTemplate.getForObject(expectedUri, LocationModel[].class)).thenReturn(mockArray);
+
+    ResponseEntity<ResponseObject> response = weatherService.getWeatherFromName(cityName);
+
+    assertEquals(HttpStatus.OK, response.getStatusCode());
+    assertTrue(response.getBody().getData() instanceof List);
+    assertEquals(2, ((List<?>) response.getBody().getData()).size());
+}
+@Test
+void testGetWeatherFromName_exceptionReturns500() {
+    String cityName = "UnknownCity";
+
+    String expectedUri = host + String.format("geo/1.0/direct?q=%s&limit=10&appid=%s", cityName, key, "imperial");
+
+    when(restTemplate.getForObject(expectedUri, LocationModel[].class))
+        .thenThrow(new HttpClientErrorException(HttpStatus.NOT_FOUND, "City not found"));
+
+    ResponseEntity<ResponseObject> response = weatherService.getWeatherFromName(cityName);
+
+    assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+    assertTrue(response.getBody().toString().contains("City not found"));
+}
+
 
 }

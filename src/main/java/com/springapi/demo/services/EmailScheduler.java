@@ -9,8 +9,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import com.springapi.demo.util.DateUtil;
-
 @Component
 public class EmailScheduler {
     private static final Logger _LOGGER = LogManager.getLogger(SpringBootApplication.class);
@@ -18,11 +16,13 @@ public class EmailScheduler {
     @Autowired
     private EmailService emailService;
 
+    //60000 == 1 min
     @Scheduled(fixedRate = 60000)
     public void sendEmail(){
         _LOGGER.info("Scheduled email");
-        //currently disabled to save calls
-        //uncomment to send calls
+        //currently disabled to save calls as we have a limit
+
+        //uncomment this line to send calls
         //emailService.sendEmailsToUsers();
     }
 
