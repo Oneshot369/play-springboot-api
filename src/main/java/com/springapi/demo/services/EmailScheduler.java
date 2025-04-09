@@ -18,7 +18,7 @@ public class EmailScheduler {
 
     //60000 == 1 min
     // 600000 == 10 mins
-    @Scheduled(fixedRate = 60000)
+    @Scheduled(fixedRate = 600000)
     public void sendEmail(){
         _LOGGER.info("Scheduled email");
         //currently disabled to save calls as we have a limit
