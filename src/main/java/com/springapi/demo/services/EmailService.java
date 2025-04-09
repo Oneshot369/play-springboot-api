@@ -41,7 +41,7 @@ public class EmailService {
     private WeatherService weatherService;
 
     private String linkMsg = "\n" + //
-            "This email was sent by Weather Notify for more information on weather conditions please view https://main.dcef6a6ef52te.amplifyapp.com/";
+            "<p>This email was sent by Weather Notify for more information on weather conditions please view <a href='https://main.dcef6a6ef52te.amplifyapp.com/'>Weather Notify </a></p>";
 
     private static final Logger _LOGGER = LogManager.getLogger(SpringBootApplication.class);
 
@@ -61,7 +61,7 @@ public class EmailService {
                     .field("from", "Weather Notify <USER@sandbox3753fc66400042709d210daf2731851b.mailgun.org>")
                     .field("to", recipient)
                     .field("subject", subject)
-                    .field("text", message)
+                    .field("html","<p>" + message +"</p>")
                     .asJson();
             _LOGGER.info(request.getBody());
         } catch (UnirestException e) {
