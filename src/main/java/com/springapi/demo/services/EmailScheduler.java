@@ -17,13 +17,14 @@ public class EmailScheduler {
     private EmailService emailService;
 
     //60000 == 1 min
+    // 600000 == 10 mins
     @Scheduled(fixedRate = 60000)
     public void sendEmail(){
         _LOGGER.info("Scheduled email");
         //currently disabled to save calls as we have a limit
 
         //uncomment this line to send calls
-        //emailService.sendEmailsToUsers();
+        emailService.sendEmailsToUsers();
     }
 
 }
