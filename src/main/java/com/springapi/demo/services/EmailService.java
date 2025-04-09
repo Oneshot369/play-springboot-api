@@ -128,7 +128,7 @@ public class EmailService {
             ConstraintModel constraintModel) {
         double val = currentWeather.getMain().getTemp();
         String sub = String.format("The %s alert was triggered", constraintModel.getName());
-        String head = String.format("Your constraint %s was activated. \n", constraintModel.getName());
+        String head = String.format("<p>Your constraint %s was activated. </p>", constraintModel.getName());
         try {
             if (constraintModel.isGreaterThan()) {
                 if (val > Double.parseDouble(constraintModel.getVal())) {
@@ -163,7 +163,7 @@ public class EmailService {
             ConstraintModel constraintModel) {
         double val = currentWeather.getMain().getFeels_like();
         String sub = String.format("The %s alert was triggered", constraintModel.getName());
-        String head = String.format("Your constraint %s was activated. \n", constraintModel.getName());
+        String head = String.format("<p>Your constraint %s was activated. </p>", constraintModel.getName());        
         try {
             if (constraintModel.isGreaterThan()) {
                 if (val > Double.parseDouble(constraintModel.getVal())) {
@@ -197,7 +197,7 @@ public class EmailService {
             ConstraintModel constraintModel) {
         int val = currentWeather.getMain().getPressure();
         String sub = String.format("The %s alert was triggered", constraintModel.getName());
-        String head = String.format("Your constraint %s was activated. \n", constraintModel.getName());
+        String head = String.format("<p>Your constraint %s was activated. </p>", constraintModel.getName());
         try {
             if (constraintModel.isGreaterThan()) {
                 if (val > Integer.parseInt(constraintModel.getVal())) {
@@ -231,7 +231,7 @@ public class EmailService {
             ConstraintModel constraintModel) {
         int val = currentWeather.getMain().getHumidity();
         String sub = String.format("The %s alert was triggered", constraintModel.getName());
-        String head = String.format("Your constraint %s was activated. \n", constraintModel.getName());
+        String head = String.format("<p>Your constraint %s was activated. </p>", constraintModel.getName());
         try {
             if (constraintModel.isGreaterThan()) {
                 if (val > Integer.parseInt(constraintModel.getVal())) {
@@ -265,7 +265,7 @@ public class EmailService {
             ConstraintModel constraintModel) {
         int val = currentWeather.getVisibility();
         String sub = String.format("The %s alert was triggered", constraintModel.getName());
-        String head = String.format("Your constraint %s was activated. \n", constraintModel.getName());
+        String head = String.format("<p>Your constraint %s was activated. </p>", constraintModel.getName());
         try {
             if (constraintModel.isGreaterThan()) {
                 if (val > Integer.parseInt(constraintModel.getVal())) {
@@ -299,7 +299,7 @@ public class EmailService {
             ConstraintModel constraintModel) {
         double val = currentWeather.getWind().getSpeed();
         String sub = String.format("The %s alert was triggered", constraintModel.getName());
-        String head = String.format("Your constraint %s was activated. \n", constraintModel.getName());
+        String head = String.format("<p>Your constraint %s was activated. </p>", constraintModel.getName());
         try {
             if (constraintModel.isGreaterThan()) {
                 if (val > Double.parseDouble(constraintModel.getVal())) {
@@ -333,7 +333,7 @@ public class EmailService {
             ConstraintModel constraintModel) {
         double val = currentWeather.getWind().getGust();
         String sub = String.format("The %s alert was triggered", constraintModel.getName());
-        String head = String.format("Your constraint %s was activated. \n", constraintModel.getName());
+        String head = String.format("<p>Your constraint %s was activated. </p>", constraintModel.getName());
         try {
             if (constraintModel.isGreaterThan()) {
                 if (val > Double.parseDouble(constraintModel.getVal())) {
