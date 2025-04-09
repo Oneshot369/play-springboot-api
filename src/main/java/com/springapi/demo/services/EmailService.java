@@ -41,7 +41,7 @@ public class EmailService {
     private WeatherService weatherService;
 
     private String linkMsg = "\n" + //
-            "This email was sent by Weather App for more information on weather conditions please view https://main.dcef6a6ef52te.amplifyapp.com/";
+            "This email was sent by Weather Notify for more information on weather conditions please view https://main.dcef6a6ef52te.amplifyapp.com/";
 
     private static final Logger _LOGGER = LogManager.getLogger(SpringBootApplication.class);
 
