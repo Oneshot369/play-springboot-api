@@ -58,7 +58,7 @@ public class EmailService {
         try {
             HttpResponse<JsonNode> request = Unirest.post(host + "v3/" + domain + "/messages")
                     .basicAuth("api", key)
-                    .field("from", "Weather App <USER@sandbox3753fc66400042709d210daf2731851b.mailgun.org>")
+                    .field("from", "Weather Notify <USER@sandbox3753fc66400042709d210daf2731851b.mailgun.org>")
                     .field("to", recipient)
                     .field("subject", subject)
                     .field("text", message)
