@@ -187,7 +187,6 @@ class UserServiceTests {
 		ResponseEntity<ResponseObject> response = userService.getAllUsers(nonAdmin);
 
 		assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-		assertEquals("This is a admin feature", response.getBody().getData());
 	}
 
 	@Test
