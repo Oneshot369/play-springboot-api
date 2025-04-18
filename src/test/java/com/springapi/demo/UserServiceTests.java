@@ -17,6 +17,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -28,6 +29,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockedStatic;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -45,6 +47,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import com.springapi.demo.config.JwtTokenProvider;
 import com.springapi.demo.model.dataObject.ConstraintModel;
 import com.springapi.demo.model.dataObject.LoginAttemptModel;
+import com.springapi.demo.model.dataObject.LoginModel;
 import com.springapi.demo.model.dataObject.UserLocationModel;
 import com.springapi.demo.model.dataObject.UserModel;
 import com.springapi.demo.model.entity.UserEntity;
@@ -54,6 +57,7 @@ import com.springapi.demo.repos.LocationRepositoryInterface;
 import com.springapi.demo.repos.UserRepositoryInterface;
 import com.springapi.demo.services.UserService;
 import com.springapi.demo.util.ResponseObject;
+import com.springapi.demo.util.AuthorityUtil;
 
 @SpringBootTest
 @ExtendWith(MockitoExtension.class)
@@ -320,11 +324,13 @@ void testAttemptLogin_Successful() {
 
     when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class))).thenReturn(mockAuth);
     when(jwtTokenProvider.generateToken(mockAuth)).thenReturn("mockJwtToken");
+	MockedStatic<AuthorityUtil> mockedUtil = mockStatic(AuthorityUtil.class);
+	mockedUtil.when(() -> AuthorityUtil.hasAuthorities(any())).thenReturn(true);
 
     ResponseEntity<ResponseObject> response = userService.attemptLogin(mockLogin);
 
     assertEquals(HttpStatus.OK, response.getStatusCode());
-    assertEquals("mockJwtToken", response.getBody().getData());
+    assertEquals("mockJwtToken", ((LoginModel) response.getBody().getData()).getJwt());
     verify(authenticationManager, times(1)).authenticate(any(UsernamePasswordAuthenticationToken.class));
     verify(jwtTokenProvider, times(1)).generateToken(mockAuth);
 }
