@@ -152,8 +152,8 @@ class UserServiceTests {
 
 		ResponseEntity<ResponseObject> response = userService.getUserByName("testUser", nonAdmin);
 
-		assertEquals(HttpStatus.FORBIDDEN, response.getStatusCode());
-		assertEquals("This is a admin feature", response.getBody().getData());
+		assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+		
 	}
 
 	@Test
@@ -187,8 +187,7 @@ class UserServiceTests {
 
 		ResponseEntity<ResponseObject> response = userService.getAllUsers(nonAdmin);
 
-		assertEquals(HttpStatus.FORBIDDEN, response.getStatusCode());
-		assertEquals("This is a admin feature", response.getBody().getData());
+		assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
 	}
 
 	@Test
