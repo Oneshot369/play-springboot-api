@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import com.springapi.demo.config.JwtTokenProvider;
 import com.springapi.demo.model.dataObject.ConstraintModel;
 import com.springapi.demo.model.dataObject.LoginAttemptModel;
+import com.springapi.demo.model.dataObject.LoginModel;
 import com.springapi.demo.model.dataObject.UserLocationModel;
 import com.springapi.demo.model.dataObject.UserModel;
 import com.springapi.demo.model.entity.ConstraintEntity;
@@ -210,9 +211,22 @@ public class UserService{
                     loginAttempt.getUsername(), loginAttempt.getPassword())
             );
             SecurityContextHolder.getContext().setAuthentication(auth);
-
+            
             String jwt = jwtTokenProvider.generateToken(auth);
-            return JsonFormatter.makeJsonResponse(HttpStatus.OK, jwt);
+
+            //check for admin
+            User user = (User) auth.getPrincipal();
+
+            LoginModel loginRes = new LoginModel();
+            loginRes.setAdmin(false);
+            loginRes.setJwt(jwt);
+
+            //if admin send set admin to true
+            if(AuthorityUtil.hasAuthorities(user)){
+                loginRes.setAdmin(true);
+            }
+
+            return JsonFormatter.makeJsonResponse(HttpStatus.OK, loginRes);
         } 
         catch(Exception e){
             return JsonFormatter.makeJsonResponse(HttpStatus.BAD_REQUEST, e.getMessage());
