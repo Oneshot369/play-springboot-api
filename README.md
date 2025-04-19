@@ -41,5 +41,5 @@ The API is documented using swagger documentation. This is generated dynamically
 To access this run the project then access the following endpoint: `{your URL here}:8080/swagger-ui/index.html#/`
 
 
-##Frontend
+## Frontend
 To explore how this application interacts with its frontend counterpart, view the frontend repository [HERE](https://github.com/Oneshot369/cap-frontend). 
