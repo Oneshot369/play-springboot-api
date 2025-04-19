@@ -15,7 +15,7 @@ This is a project that is interconnected with another repository [The Frontend](
 ## Overview
 As previously stated this is the backend, so all the documentation located here will be referenced to that. If you want to see the complete documentation for the front and backend, I suggest you visit my [project design document](https://1drv.ms/w/c/0f720a2bdf7ca902/Ect8zp6QuXVAjUKLloeDHOAB5pt0DCs30U6u0vzoaCLVQw?e=in1t7l) which holds the entirety of my documentation. 
 ### Running the project
-If you are here to run this code yoruself, please create a fork and the only text you need to change is in the application.properties files located under: `src/main/resources`. For this go through and change your database/api credentenals for your own. Then you can run the project by using `mvn clean install` and then running the java project. 
+If you are here to run this code yoruself, please create a fork and the only text you need to change is in the application.properties files located under: `src/main/resources` (ensure that the property `cors.frontend.url` is the URL of your frontend, or your requests will be blocked).. For this go through and change your database/api credentenals for your own. Then you can run the project by using `mvn clean install` and then running the java project. 
 ## Requirements
 For this project I outlined 99 user stories for the requirements. As of 4/14/2025 they are all compleated with 181.5 work hours recorded to achieve all of them. For the entier list of them please visit the following document:
 
