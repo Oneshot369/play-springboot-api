@@ -29,7 +29,7 @@ This table is only the technologies used in the backend. This includes languages
 | MailGun API (1.4.9v) |  This will be the third-party API we will use to send out email notifications. |
 | MySQL Community (8.0.35v) | This will be the technology our database runs on for storing user information.  |
 | AWS RDS (instance: db.t3.micro) | This is the AWS Service and instance class we will be using for hosting our Database.  |
-| AWS Elastic Beanstalk(Corretto 17 on amazon linux 2023, platform 4.3.2) | This service will be used to host our instance of the backend on the AWS cloud. It will be on the Amazon Linux machine image |
+| AWS Elastic Beanstalk(Corretto 17 on amazon linux 2023, platform 4.3.2) | This service will be used to host our instance of the backend on the AWS cloud. It will be on the Amazon Linux machine image. |
 
 ## Requirements
 For this project I outlined 99 user stories for the requirements. As of 4/14/2025 they are all compleated with 181.5 work hours recorded to achieve all of them. For the entier list of them please visit the following document:
